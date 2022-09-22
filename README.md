@@ -11,9 +11,6 @@
 |User Interface|Prannaya|
 |Data Collection|Yu Pin|
 
-## Task at Hand
+## Proposed Layout of App
 
-A Spatial R-Tree is defined as follows:
-![R-Tree Functionality](img/RTree.png)
-
-
+![](img/pa2Layout.png)
