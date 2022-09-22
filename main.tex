@@ -1,0 +1,159 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper]{geometry}
+\usepackage[myheadings]{fullpage}
+\usepackage{amsmath,amssymb,amsthm, enumitem, hyperref, tabto} 
+\usepackage{fancyhdr}
+\usepackage{arxiv}
+\usepackage{lastpage}
+\usepackage{graphicx, wrapfig, subcaption, setspace}
+\usepackage[font=small, labelfont=bf]{caption} \usepackage{blindtext}
+ \usepackage{blindtext}
+\usepackage{url, lipsum}
+\usepackage{tgbonum}
+\usepackage{amsmath,physics}
+\usepackage{authblk}
+\usepackage{hyperref}
+ \hypersetup{ 
+     colorlinks=true, 
+     linkcolor=blue, 
+     filecolor=blue, 
+     citecolor =red,       
+     urlcolor=cyan,
+     pdftitle={Using Spatial Trees to optimize Food Costs for Lower Wage Families}
+     } 
+\usepackage[super,compress,sort,numbers]{natbib}
+\usepackage{csquotes}
+\usepackage{multicol}
+%\setlength{\multicolsep}{6.0pt plus 2.0pt minus 1.5pt}% 50% of original values
+\usepackage{xcolor}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\floatname{algorithm}{Algorithm}
+\usepackage{times}
+\usepackage{adjustbox}
+\usepackage[T1]{fontenc}
+\usepackage{makecell}
+\usepackage{parskip}
+\usepackage{erewhon}
+\usepackage{geometry}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{framed}
+\setlength\FrameSep{0.5em}
+\setlength\OuterFrameSep{\partopsep}
+% \usepackage{draftwatermark}
+\graphicspath{ {./images/} }
+\usepackage{sectsty}
+
+\sectionfont{\fontsize{15}{20}\selectfont}
+\usepackage{tikz}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+\usepackage[sorting=none]{biblatex}
+\addbibresource{references.bib}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+\onehalfspacing
+\setcounter{tocdepth}{5}
+\setcounter{secnumdepth}{5}
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\begin{document}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize \textbf{CS5132} PA2 - \emph{Using Spatial Trees to optimize Food Costs for Lower Wage Families} }
+
+\fancyfoot[R]{Page \thepage\ of \pageref{LastPage}}
+
+
+{\selectfont
+\title{
+	\huge \textbf{Using Spatial Trees to optimize Food Costs for Lower Wage Families}
+}
+
+\date{}
+
+\author[1]{Kannan Vishal}
+\author[1]{Prannaya Gupta}
+\author[1]{Quek Yu Pin}
+\author[1]{Vikram Ramanathan}
+\affil[1]{NUS High School of Math and Science}
+
+\maketitle
+
+\vspace{-2cm}
+
+\tableofcontents
+
+\thispagestyle{empty}
+\newpage
+
+\section{Background}
+Provide the context of the societal issue the project is to solve and the user audience who benefits from the project. Justification needs to be made on how the tree structure is relevant to the project in the context of the societal issue and how does the tree structure help in providing an efficient solution to the societal issue.
+
+\section{User Documentation}
+You are to provide a brief user documentation with \textbf{screenshots} on how to use the
+program and its functionalities.
+
+\section{Analysis and Explanation of Implemented Tree Methods}
+Provide a brief explanation, in your own words, and rigorous mathematical worst-case
+analysis derivation and time complexity of the key methods of your tree structure
+(retrieval, insertion, deletion, balance (if any))
+
+\subsection{Spatial R-Trees}
+
+\subsection{Spatial Quad-Trees}
+
+
+\section{Testing Strategy}
+You are to provide at least \textbf{3 test cases} you used to test the correctness and
+robustness of your program. Log down the sample input and output for each test case.
+Briefly explain why each test case was chosen.
+
+\newpage
+\section{GitHub Information}
+You can find our repository at \url{https://github.com/ThePyProgrammer/SnackNow}.
+
+TODO: Repo Report.
+
+\section{Reflection}
+
+\subsection{Vishal}
+
+\subsection{Prannaya}
+
+\subsection{Yu Pin}
+
+\subsection{Vikram}
+
+\section{Work Distribution Matrix}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+    \hline
+    & Vishal & Prannaya & Yu Pin & Vikram \\ [0.5ex] 
+    \hline\hline
+    Ideation & \checkmark &  &  & \checkmark \\
+    R-Tree Implementation &  & \checkmark &  & \checkmark \\
+    Quad-Tree Implementation &  &  &  & \checkmark \\
+    Data Collection &  &  & \checkmark &  \\
+    User Interface &  & \checkmark &  &  \\
+    \hline
+\end{tabular}
+\end{center}
+
+
+\newpage
+
+
+\section{References}
+
+\printbibliography[
+heading=none
+]
+}
+
+\end{document}
