@@ -15,8 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
+import androidx.compose.ui.window.*
 import model.base.Result
 import ui.components.ResultPane
 import ui.lib.Combobox
@@ -36,7 +35,7 @@ fun App() {
     )
 
     MaterialTheme {
-        Row {
+        Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(20.dp)) {
 
             Box(Modifier.width(450.dp).fillMaxHeight()) {
                 Column(Modifier.width(450.dp)) {
@@ -77,10 +76,10 @@ fun App() {
 
             }
 
-            Box {
+            Box(Modifier.fillMaxSize()) {
                 val state = rememberLazyListState()
 
-                LazyColumn(modifier = Modifier.width(320.dp).padding(end = 12.dp), state) {
+                LazyColumn(modifier = Modifier.width(500.dp).padding(end = 12.dp).fillMaxWidth(), state) {
                     items(results) { ResultPane(it) }
                 }
 
@@ -96,7 +95,21 @@ fun App() {
 }
 
 fun main() = application {
-    Window(onCloseRequest = ::exitApplication) {
+    val state = rememberWindowState(
+        placement = WindowPlacement.Maximized,
+        position = WindowPosition(Alignment.Center),
+        isMinimized = false,
+        width = 800.dp,
+        height = 600.dp
+    )
+    var windowTitle by remember { mutableStateOf("SnackNow") }
+    Window(
+        title = windowTitle,
+        resizable = true,
+        state = state,
+        icon = null,
+        onCloseRequest = ::exitApplication
+    ) {
         App()
     }
 }

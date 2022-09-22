@@ -18,19 +18,42 @@ import model.base.Result
 @Composable
 fun ResultPane(result: Result) {
     Card(elevation = 10.dp, modifier = Modifier.padding(10.dp), shape = RoundedCornerShape(10.dp)) {
-        Column(Modifier.padding(10.dp), Arrangement.spacedBy(5.dp)) {
-            Box {
-                Row(Modifier.padding(10.dp).fillMaxWidth(), Arrangement.spacedBy(5.dp)) {
-                    Column {
-                        Text(result.name, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                        Text("Location: " + result.location)
+
+        BoxWithConstraints {
+            if (maxWidth < 400.dp) {
+                Column(Modifier.padding(10.dp), Arrangement.spacedBy(5.dp)) {
+                    Box {
+                        Row(Modifier.padding(10.dp).fillMaxWidth(), Arrangement.spacedBy(5.dp)) {
+                            Column {
+                                Text(result.name, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                                Text("Location: " + result.location)
+                            }
+                        }
+
+                        Column(modifier = Modifier.align(Alignment.TopEnd)) {
+                            Text(String.format("$%.2f",result.price), fontSize = 20.sp, color = MaterialTheme.colors.primary)
+                        }
                     }
                 }
+            } else {
+                Column(Modifier.padding(10.dp), Arrangement.spacedBy(5.dp)) {
+                    Box {
+                        Row(Modifier.padding(10.dp).fillMaxWidth(), Arrangement.spacedBy(5.dp)) {
+                            Column {
+                                Text(result.name, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                                Text("Location: " + result.location)
+                            }
+                        }
 
-                Column(modifier = Modifier.align(Alignment.TopEnd)) {
-                    Text(String.format("$%.2f",result.price), fontSize = 12.sp, color = MaterialTheme.colors.primary)
+                        Column(modifier = Modifier.align(Alignment.TopEnd)) {
+                            Text(String.format("$%.2f",result.price), fontSize = 14.sp, color = MaterialTheme.colors.primary)
+                        }
+                    }
                 }
             }
         }
+
+
+
     }
 }
