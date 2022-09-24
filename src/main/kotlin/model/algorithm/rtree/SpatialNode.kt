@@ -1,6 +1,7 @@
-package model.algorithm
+package model.algorithm.rtree
 
-import model.util.replaceAllNulls
+import model.algorithm.base.Node
+import util.replaceAllNulls
 import java.util.*
 
 open class SpatialNode(

@@ -1,4 +1,4 @@
-package model.util
+package util
 
 import java.lang.Float.max
 import java.lang.Float.min

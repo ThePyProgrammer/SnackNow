@@ -1,6 +1,6 @@
-package model.algorithm
+package model.algorithm.rtree
 
-import model.util.*
+import util.*
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -12,6 +12,8 @@ class RTree<T>(
     val numDims: Int = 2, val seedPicker: SeedPicker = SeedPicker.LINEAR
 ) {
     enum class SeedPicker { LINEAR, QUADRATIC }
+
+    final val FUDGE_FACTOR = 1.001f
 
     @Volatile
     var size = 0
@@ -31,7 +33,6 @@ class RTree<T>(
         scoords: Array<Float>, sdimensions: Array<Float>,
         coords: Array<Float>, dimensions: Array<Float>
     ): Boolean {
-        val FUDGE_FACTOR = 1.001f // I like the name tho
         for (i in scoords.indices) {
             var overlapInThisDimension = false
             if (scoords[i] == coords[i]) overlapInThisDimension = true
@@ -47,7 +48,7 @@ class RTree<T>(
     fun search(
         coords: Array<Float>, dimensions: Array<Float>,
         n: SpatialNode = root, results: LinkedList<T> = LinkedList<T>()
-    ) {
+    ): List<T> {
         if(n.leaf) {
             n.children.filter {
                 isOverlap(coords, dimensions, it.coords, it.dimensions)
@@ -61,6 +62,7 @@ class RTree<T>(
                 search(coords, dimensions, it, results)
             }
         }
+        return results
     }
 
     fun getArea(dimensions: Array<Float>) = dimensions.fold(1.0f) { a, b -> a*b }

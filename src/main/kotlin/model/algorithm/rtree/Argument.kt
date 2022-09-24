@@ -1,4 +1,4 @@
-package model.algorithm
+package model.algorithm.rtree
 
 data class Argument(var coords: Array<Float>, var dimensions: Array<Float>) {
     override fun equals(other: Any?): Boolean {
