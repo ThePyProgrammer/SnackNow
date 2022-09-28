@@ -1,6 +1,7 @@
 package ui.components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -18,7 +19,6 @@ import model.base.Result
 @Composable
 fun ResultPane(result: Result) {
     Card(elevation = 10.dp, modifier = Modifier.padding(10.dp), shape = RoundedCornerShape(10.dp)) {
-
         BoxWithConstraints {
             if (maxWidth < 400.dp) {
                 Column(Modifier.padding(10.dp), Arrangement.spacedBy(5.dp)) {
@@ -34,6 +34,7 @@ fun ResultPane(result: Result) {
                             Text(String.format("$%.2f",result.price), fontSize = 20.sp, color = MaterialTheme.colors.primary)
                         }
                     }
+
                 }
             } else {
                 Column(Modifier.padding(10.dp), Arrangement.spacedBy(5.dp)) {
@@ -49,6 +50,8 @@ fun ResultPane(result: Result) {
                             Text(String.format("$%.2f",result.price), fontSize = 14.sp, color = MaterialTheme.colors.primary)
                         }
                     }
+                    Image(result.getImage(), "Image of " + result.name, Modifier.fillMaxWidth())
+
                 }
             }
         }

@@ -18,8 +18,6 @@ repositories {
 
 dependencies {
     implementation(compose.desktop.currentOs)
-    implementation("com.google.maps.android:maps-compose:2.7.0")
-    implementation("com.google.android.gms:play-services-maps:18.1.0")
 }
 
 tasks.withType<KotlinCompile> {
