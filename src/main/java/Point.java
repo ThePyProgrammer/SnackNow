@@ -18,4 +18,9 @@ public class Point {
     public boolean isEqualTo(Point p) {
         return x == p.x && y == p.y;
     }
+
+    public boolean isInside(Point topLeft, Point bottomRight) {
+        // WARNING: Both edges are inclusive, if we get duplicates, it's probably this
+        return (x <= topLeft.x && y <= topLeft.y && x >= bottomRight.x && y >= bottomRight.y);
+    }
 }
