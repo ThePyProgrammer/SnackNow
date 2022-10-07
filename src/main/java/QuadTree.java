@@ -114,7 +114,7 @@ public class QuadTree<T extends Comparable<? super T> & Mergeable<? super T> & L
 
     private void rangeQuery(ArrayList<E> out, QuadNode<T> curr) {
         // For when the query fully covers the quad
-
+        out.addAll(curr.getItem().ListOut());
     }
 
 }
