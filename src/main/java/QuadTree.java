@@ -1,4 +1,7 @@
-public class QuadTree<T extends Comparable<? super T> & Mergeable<? super T>> {
+import java.util.ArrayList;
+
+public class QuadTree<T extends Comparable<? super T> & Mergeable<? super T> & Listlike<E>, E extends Point> {
+    // This thing is an abomination, next time I should just hardcode this nonsense
     private QuadNode<T> root;
     private final double minDim = 0.0009; // 1 lat/long is 110.6 km, resolution of around 100m here
 
@@ -64,6 +67,8 @@ public class QuadTree<T extends Comparable<? super T> & Mergeable<? super T>> {
                 }
             }
         }
+        // Note that I can't do "early stopping" of the recursion here nicely, because of the superstore thing
+        // It's still possible, but I'll only do it if it's necessary
 
         else if(curr.isEmpty()) { // We can't subdivide further
 
@@ -76,4 +81,40 @@ public class QuadTree<T extends Comparable<? super T> & Mergeable<? super T>> {
             curr.setItem((T) curr.getItem().Merge(item)); // This is always safe, I mean, it really should be
         }
     }
+
+    public ArrayList<E> rangeQuery(Point topLeft, Point bottomRight) {
+        ArrayList<E> out = new ArrayList<>();
+
+        rangeQuery(out, root, topLeft, bottomRight);
+
+        return out;
+    }
+
+    private void rangeQuery(ArrayList<E> out, QuadNode<T> curr, Point topLeft, Point bottomRight) {
+        // For when the quad is not fully inside the query
+        if(curr.isEmpty()) {
+            for(QuadNode<T> child : (QuadNode<T>[]) curr.neighbours) {
+                if(child.whollyWithin(topLeft, bottomRight)) {
+                    rangeQuery(out, child);
+                }
+                else if(child.hasOverlap(topLeft, bottomRight)) {
+                    rangeQuery(out, child, topLeft, bottomRight);
+                }
+            }
+        }
+        else {
+            // Check if the stuff inside actually is inside the bounds
+            for(E item : curr.getItem().ListOut()) {
+                if(item.isInside(topLeft, bottomRight)) {
+                    out.add(item);
+                }
+            }
+        }
+    }
+
+    private void rangeQuery(ArrayList<E> out, QuadNode<T> curr) {
+        // For when the query fully covers the quad
+
+    }
+
 }
