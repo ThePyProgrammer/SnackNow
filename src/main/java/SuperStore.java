@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class SuperStore implements Mergeable<SuperStore> {
+public class SuperStore implements Mergeable<SuperStore>, Listlike<Item> {
     public ArrayList<Item> allItems;
     // It is absolutely critical that allItems is always kept in alphabetical order
 
@@ -68,5 +68,9 @@ public class SuperStore implements Mergeable<SuperStore> {
 
         return new SuperStore(out);
         //TODO hope and pray that this actually works
+    }
+
+    public ArrayList<Item> ListOut() {
+        return allItems;
     }
 }
