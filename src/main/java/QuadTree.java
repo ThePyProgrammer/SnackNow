@@ -94,7 +94,8 @@ public class QuadTree<T extends Comparable<? super T> & Mergeable<? super T> & L
         // For when the quad is not fully inside the query
         if(curr.isEmpty()) {
             for(QuadNode<T> child : (QuadNode<T>[]) curr.neighbours) {
-                if(child.whollyWithin(topLeft, bottomRight)) {
+                if(child == null); // This is intended, and kinda ugly, but works
+                else if(child.whollyWithin(topLeft, bottomRight)) {
                     rangeQuery(out, child);
                 }
                 else if(child.hasOverlap(topLeft, bottomRight)) {
@@ -114,7 +115,14 @@ public class QuadTree<T extends Comparable<? super T> & Mergeable<? super T> & L
 
     private void rangeQuery(ArrayList<E> out, QuadNode<T> curr) {
         // For when the query fully covers the quad
-        out.addAll(curr.getItem().ListOut());
+        if (curr.isEmpty()) {
+            for (QuadNode<T> child : (QuadNode<T>[]) curr.neighbours) {
+                if(child != null) rangeQuery(out, child);
+            }
+        }
+        else {
+            out.addAll(curr.getItem().ListOut());
+        }
     }
 
 }
