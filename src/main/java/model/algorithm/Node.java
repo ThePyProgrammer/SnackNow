@@ -1,3 +1,5 @@
+package model.algorithm;
+
 public class Node<T> {
     private T item;
     Node<T>[] neighbours; //Package accessibility

@@ -1,3 +1,9 @@
+package model.algorithm;
+
+import model.base.Listlike;
+import model.base.Mergeable;
+import model.base.Point;
+
 import java.util.ArrayList;
 
 public class QuadTree<T extends Comparable<? super T> & Mergeable<? super T> & Listlike<E>, E extends Point> {

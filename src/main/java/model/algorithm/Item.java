@@ -1,3 +1,7 @@
+package model.algorithm;
+
+import model.base.Point;
+
 public class Item extends Point implements Comparable<Item> {
     public String itemName;
     public String address;

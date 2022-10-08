@@ -1,4 +1,6 @@
-import com.sun.jdi.Method;
+package model.algorithm;
+
+import model.base.Point;
 
 public class QuadNode<T extends Comparable<? super T>> extends Node<T> {
 
