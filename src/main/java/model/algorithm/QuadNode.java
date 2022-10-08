@@ -61,7 +61,7 @@ public class QuadNode<T extends Comparable<? super T>> extends Node<T> {
     }
 
     public void clearItem(T value) {
-        throw new IllegalArgumentException("Do not actually use the version of clearItem in model.algorithm.QuadNode with an argument,"
+        throw new IllegalArgumentException("Do not actually use the version of clearItem in QuadNode with an argument,"
                 + " it exists only to be overridden in MinNode.");
     }
 

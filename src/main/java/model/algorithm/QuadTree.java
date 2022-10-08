@@ -17,7 +17,7 @@ public class QuadTree<T extends Comparable<? super T> & Mergeable<? super T> & L
 
     public void insert(T item, Point pos) { // Nice and shiny
         if(!root.inBounds(pos)) {
-            throw new IndexOutOfBoundsException("model.base.Point outside of bounding box of model.algorithm.QuadTree!");
+            throw new IndexOutOfBoundsException("Point outside of bounding box of QuadTree!");
         }
         if(item == null) {
             throw new IllegalArgumentException("Cannot insert element of type \"null\"");
