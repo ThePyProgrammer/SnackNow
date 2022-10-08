@@ -1,3 +1,8 @@
+package model.algorithm;
+
+import model.base.Listlike;
+import model.base.Mergeable;
+
 import java.util.ArrayList;
 
 public class SuperStore implements Mergeable<SuperStore>, Listlike<Item> {
