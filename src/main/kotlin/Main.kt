@@ -44,7 +44,7 @@ fun App() {
                         OutlinedTextField(
                             value = text,
                             onValueChange = { text = it },
-                            label = { Text("Item") }
+                            label = { Text("model.algorithm.Item") }
                         )
                     }
                     Row(Modifier.padding(10.dp).align(Alignment.Start).fillMaxWidth(), Arrangement.spacedBy(20.dp), verticalAlignment = Alignment.CenterVertically) {
