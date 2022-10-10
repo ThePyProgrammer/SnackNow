@@ -2,7 +2,7 @@ package model.algorithm;
 
 import model.base.Point;
 
-public class QuadNode<T extends Comparable<? super T>> extends Node<T> {
+public class QuadNode<T> extends Node<T> {
 
     Point itemPos;
     Point topLeft;
@@ -34,8 +34,8 @@ public class QuadNode<T extends Comparable<? super T>> extends Node<T> {
     }
 
     public boolean inBounds(Point pos) {
-        return topLeft.x < pos.x && pos.x < bottomRight.x
-                && topLeft.y > pos.y && pos.y > bottomRight.y;
+        return topLeft.x <= pos.x && pos.x <= bottomRight.x
+                && topLeft.y >= pos.y && pos.y >= bottomRight.y;
     }
 
     public boolean hasOverlap(Point topLeft, Point bottomRight) {
@@ -45,9 +45,9 @@ public class QuadNode<T extends Comparable<? super T>> extends Node<T> {
     }
 
     public boolean whollyWithin(Point topLeft, Point bottomRight) {
-        // Checks if this node is wholly within the provided rectangle
-        return (topLeft.y > this.topLeft.y && bottomRight.y < this.bottomRight.y
-                && topLeft.x < this.topLeft.x && bottomRight.x > this.bottomRight.x);
+        // Checks if this quad is wholly within the provided rectangle
+        return (topLeft.y >= this.topLeft.y && bottomRight.y <= this.bottomRight.y
+                && topLeft.x <= this.topLeft.x && bottomRight.x >= this.bottomRight.x);
     }
 
     public void setItem(T value, Point newPos) {
@@ -66,7 +66,7 @@ public class QuadNode<T extends Comparable<? super T>> extends Node<T> {
     }
 
     public boolean isEmpty() {
-        return getItem() != null;
+        return getItem() == null;
     }
 
     public String serialiseNode() throws NoSuchMethodException {

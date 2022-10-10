@@ -6,7 +6,7 @@ import model.base.Point;
 
 import java.util.ArrayList;
 
-public class QuadTree<T extends Comparable<? super T> & Mergeable<? super T> & Listlike<E>, E extends Point> {
+public class QuadTree<T extends Mergeable<? super T> & Listlike<E>, E extends Point> {
     // This thing is an abomination, next time I should just hardcode this nonsense
     private QuadNode<T> root;
     private final double minDim = 0.0009; // 1 lat/long is 110.6 km, resolution of around 100m here
@@ -17,6 +17,7 @@ public class QuadTree<T extends Comparable<? super T> & Mergeable<? super T> & L
 
     public void insert(T item, Point pos) { // Nice and shiny
         if(!root.inBounds(pos)) {
+            System.out.println(pos.x + ":" + pos.y);
             throw new IndexOutOfBoundsException("Point outside of bounding box of QuadTree!");
         }
         if(item == null) {
@@ -84,7 +85,12 @@ public class QuadTree<T extends Comparable<? super T> & Mergeable<? super T> & L
         else { // We can't subdivide further
 
             //Oh well, guess I'll merge
-            curr.setItem((T) curr.getItem().Merge(item)); // This is always safe, I mean, it really should be
+            if (curr.isEmpty()) {
+                curr.setItem(item, pos);
+            }
+            else {
+                curr.setItem((T) curr.getItem().Merge(item)); // This is always safe, I mean, it really should be
+            }
         }
     }
 
@@ -99,7 +105,7 @@ public class QuadTree<T extends Comparable<? super T> & Mergeable<? super T> & L
     private void rangeQuery(ArrayList<E> out, QuadNode<T> curr, Point topLeft, Point bottomRight) {
         // For when the quad is not fully inside the query
         if(curr.isEmpty()) {
-            for(QuadNode<T> child : (QuadNode<T>[]) curr.neighbours) {
+            for(QuadNode<T> child : curr.neighbours) {
                 if(child == null); // This is intended, and kinda ugly, but works
                 else if(child.whollyWithin(topLeft, bottomRight)) {
                     rangeQuery(out, child);
