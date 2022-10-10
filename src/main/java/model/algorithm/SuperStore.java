@@ -78,4 +78,14 @@ public class SuperStore implements Mergeable<SuperStore>, Listlike<Item> {
     public ArrayList<Item> ListOut() {
         return allItems;
     }
+
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        for(Item item : allItems) {
+            builder.append(item.toString());
+        }
+
+        return builder.toString();
+    }
 }

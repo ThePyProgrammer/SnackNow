@@ -28,4 +28,8 @@ public class Item extends Point implements Comparable<Item> {
     public int compareTo(Item item) {
         return itemName.compareTo(item.itemName);
     }
+
+    public String toString() {
+        return "\nName: " + itemName + ", Address: " + address + ", Price: " + price + ", (x, y): (" + x + ", " + y + ")";
+    }
 }
