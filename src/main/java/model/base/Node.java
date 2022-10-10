@@ -1,4 +1,4 @@
-package model.algorithm;
+package model.base;
 
 public class Node<T> {
     private T item;

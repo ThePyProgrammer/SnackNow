@@ -14,6 +14,7 @@ public class ExampleTestingThing {
 
         store1.addItem(new Item("Cocaine", "Outside", new Point(0.003, 0.003), 50));
         store2.addItem(new Item("Cocaine", "Outside v2", new Point(0.008, 0.004), 100));
+        store2.addItem(new Item("Heroin", "Outside v2", new Point(0.008, 0.004), 20));
 
         // Note that while superstores have a position, they are implicitly min-size quads
 

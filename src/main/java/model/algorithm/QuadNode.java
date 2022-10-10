@@ -1,5 +1,6 @@
 package model.algorithm;
 
+import model.base.Node;
 import model.base.Point;
 
 public class QuadNode<T> extends Node<T> {
@@ -7,6 +8,8 @@ public class QuadNode<T> extends Node<T> {
     Point itemPos;
     Point topLeft;
     Point bottomRight;
+
+    QuadNode<T>[] neighbours;
 
     // For the neighbours array, 0 is top left, 1 is top right, 2 is bottom left, 3 is bottom right
 
@@ -16,6 +19,7 @@ public class QuadNode<T> extends Node<T> {
         this.itemPos = itemPos;
         this.topLeft = topLeft;
         this.bottomRight = bottomRight;
+        this.neighbours = new QuadNode[4];
     }
 
     public QuadNode(T item, Point itemPos, Point topLeft, Point bottomRight, int num_neighbours) {
@@ -24,6 +28,7 @@ public class QuadNode<T> extends Node<T> {
         this.itemPos = itemPos;
         this.topLeft = topLeft;
         this.bottomRight = bottomRight;
+        this.neighbours = new QuadNode[num_neighbours];
     }
 
     public QuadNode(QuadNode<T> n) {
@@ -31,6 +36,7 @@ public class QuadNode<T> extends Node<T> {
         this.itemPos = n.itemPos;
         this.topLeft = n.topLeft;
         this.bottomRight = n.bottomRight;
+        this.neighbours = n.neighbours;
     }
 
     public boolean inBounds(Point pos) {
