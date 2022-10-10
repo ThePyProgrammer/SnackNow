@@ -1,5 +1,7 @@
 package data;
 
+import model.base.Location;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -29,8 +31,9 @@ public class Wow {
             while (line != null) {
                 Matcher matcher = pattern.matcher(line);
                 if (matcher.matches()) {
-                    Location location = new Location(matcher.group(1), Double.parseDouble(matcher.group(3)), Double.parseDouble(matcher.group(4)));
+                    Location location = new Location(matcher.group(1), Double.parseDouble(matcher.group(3)), Double.parseDouble(matcher.group(4)), null);
                     result.add(location);
+
                 } else {
                     System.out.println("skill issue"); // replace with error or better text
                 }
