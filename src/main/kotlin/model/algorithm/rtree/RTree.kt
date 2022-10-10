@@ -231,22 +231,6 @@ class RTree<T>(
         }
     }
 
-    fun visit(nv: NodeVisitor<T>) {
-        val coordBuf = arrayOfNulls<Float>(numDims).replaceAllNulls(0.0F)
-        val dimBuf = arrayOfNulls<Float>(numDims).replaceAllNulls(0.0F)
-        val toVisit: Queue<SpatialNode> = LinkedList<SpatialNode>().apply { add(root) }
-        val nodeDepths: MutableMap<SpatialNode, Int> = hashMapOf(root to 0)
-        while(!toVisit.isEmpty()) {
-            val currentNode = toVisit.remove()
-            if(currentNode.parent != null) nodeDepths[currentNode] = (nodeDepths[currentNode.parent] ?: 0) + 1
-            System.arraycopy(currentNode.coords, 0, coordBuf, 0, numDims)
-            System.arraycopy(currentNode.dimensions, 0, dimBuf, 0, numDims)
-            if(currentNode is Entry<*>) nv.visit(nodeDepths[currentNode]?:0, coordBuf, dimBuf, currentNode.entry as T)
-            else nv.visit(nodeDepths[currentNode]?:0, coordBuf, dimBuf, null as T?)
-            toVisit.addAll(currentNode.children)
-        }
-    }
-
     fun visit(nvisit: (Int, Array<Float>, Array<Float>, T?) -> Unit) {
         val coordBuf = arrayOfNulls<Float>(numDims).replaceAllNulls(0.0F)
         val dimBuf = arrayOfNulls<Float>(numDims).replaceAllNulls(0.0F)
