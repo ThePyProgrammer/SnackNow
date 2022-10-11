@@ -2,6 +2,6 @@ package model.base;
 
 import java.util.ArrayList;
 
-public interface Listlike<E> {
-    ArrayList<E> ListOut();
+public interface ListLike<E> {
+    ArrayList<E> listOut();
 }
