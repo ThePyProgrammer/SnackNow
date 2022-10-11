@@ -32,10 +32,11 @@ def plot_points(bounds, points, queries):
     plt.scatter(*zip(*points), s=10)
 
     for i, query in enumerate(queries):
-        print('query', i, query)
+        print('query', i+1, query)
+        c=np.random.rand(3,)
         plt.gca().add_patch(
-            plt.Rectangle((query[0], query[1]), query[2] - query[0], query[3] - query[1], fill=False, color='r'))
-        plt.annotate(str(i + 1), (query[0] + 0.0002, query[1] - 0.0005), fontsize=10)
+            plt.Rectangle((query[0], query[1]), query[2] - query[0], query[3] - query[1], fill=False, color=c))
+        plt.annotate(str(i + 1), (query[0], query[1]), fontsize=10,color=c)
 
     plt.show()
 
