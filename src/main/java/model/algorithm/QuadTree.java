@@ -1,12 +1,12 @@
 package model.algorithm;
 
-import model.base.ListLike;
+import model.base.Listlike;
 import model.base.Mergeable;
 import model.base.Point;
 
 import java.util.ArrayList;
 
-public class QuadTree<T extends Mergeable<? super T> & ListLike<E>, E extends Point> {
+public class QuadTree<T extends Mergeable<? super T> & Listlike<E>, E extends Point> {
     // This thing is an abomination, next time I should just hardcode this nonsense
     private QuadNode<T> root;
     private final double minDim = 0.0009; // 1 lat/long is 110.6 km, resolution of around 100m here

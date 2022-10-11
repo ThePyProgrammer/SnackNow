@@ -31,7 +31,7 @@ public class ExampleTestingThing {
     public static void printPositions(ArrayList<Item> arr) {
         System.out.println("Number of elements: " + arr.size());
         for(Item i : arr) {
-            System.out.println(i.x + " : " + i.y);
+            System.out.println(i.getX() + " : " + i.getY());
         }
     }
 }
