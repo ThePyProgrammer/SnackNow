@@ -19,7 +19,7 @@ fun main() {
 fun getConvenienceStores(): ArrayList<Location> {
     val result = ArrayList<Location>()
     val pattern =
-        Pattern.compile(" showlocation\\(\"([\\w#.,'/@() \\-]+)\", \"([\\w#.,'/@() \\-]+)\", ([\\d.]+), ([\\d.]+)\\);")
+        Pattern.compile("showlocation\\(\"([\\w#.,'/@() \\-]+)\", \"([\\w#.,'/@() \\-]+)\", ([\\d.]+), ([\\d.]+)\\);")
 
     // load 7-11.txt
     try {
@@ -30,7 +30,10 @@ fun getConvenienceStores(): ArrayList<Location> {
                 if (matcher.matches()) {
                     val location =
                         Location(matcher.group(1), matcher.group(3).toDouble(), matcher.group(4).toDouble(), null)
-                    result.add(location)
+                    // check to remove funny africa point
+                    if (location.lat != 0.0) {
+                        result.add(location)
+                    }
                 } else {
                     println("skill issue") // replace with error or better text
                 }
