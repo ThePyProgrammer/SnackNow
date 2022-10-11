@@ -25,4 +25,9 @@ public class Point {
         // WARNING: Both edges are inclusive, if we get duplicates, it's probably this
         return (x <= topLeft.x && y <= topLeft.y && x >= bottomRight.x && y >= bottomRight.y);
     }
+
+    @Override
+    public String toString() {
+        return String.format("(%.5f, %.5f)", x, y);
+    }
 }
