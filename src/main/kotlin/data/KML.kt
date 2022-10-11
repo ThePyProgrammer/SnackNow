@@ -3,7 +3,6 @@ package data
 import model.base.Location
 import java.io.FileInputStream
 import java.io.FileNotFoundException
-import java.lang.Double.parseDouble
 import javax.xml.namespace.QName
 import javax.xml.stream.XMLEventReader
 import javax.xml.stream.XMLInputFactory
@@ -13,6 +12,7 @@ import javax.xml.stream.events.StartElement
 import javax.xml.stream.events.XMLEvent
 
 
+// returns a list of locations
 fun parseKML(filename: String): ArrayList<Location> {
 
     val whyDoesJavaHaveSoManyFactories: XMLInputFactory = XMLInputFactory.newInstance()
@@ -38,8 +38,8 @@ fun parseKML(filename: String): ArrayList<Location> {
                         nextEvent = reader.nextEvent()
                         val point: String = nextEvent.asCharacters().data
                         val splitted = point.split(",")
-                        latitude = parseDouble(splitted[0])
-                        longitude = parseDouble(splitted[1])
+                        latitude = splitted[0].toDouble()
+                        longitude = splitted[1].toDouble()
                     }
                     "simpledata" -> {
                         val name: Attribute? = startElement.getAttributeByName(QName("name"))
@@ -54,13 +54,18 @@ fun parseKML(filename: String): ArrayList<Location> {
             }
             if (nextEvent.isEndElement) {
                 val endElement: EndElement = nextEvent.asEndElement()
-                if (endElement.name.localPart.equals("placemark")) {
-                    val location = Location(address, latitude, longitude, null)
-                    locations.add(location)
+                when (endElement.name.localPart) {
+                    "placemark" -> {
+                        // end
+                        val location = Location(address, latitude, longitude, null)
+                        locations.add(location)
+                    }
                 }
             }
         }
     } catch (e: FileNotFoundException) {
+        e.printStackTrace()
+    } catch (e: NumberFormatException) {
         e.printStackTrace()
     }
 
