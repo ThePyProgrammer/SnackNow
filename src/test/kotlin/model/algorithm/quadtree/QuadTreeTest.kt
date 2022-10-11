@@ -33,9 +33,10 @@ fun test(test: Testcase) {
           }, insert)
     }
 
+    var count = 1;
     test.queries.forEach { query ->
         val result = tree.rangeQuery(query[0], query[1]).map { Point(it.x,it.y) }
-        println("Queried ${query[0].toString()} to ${query[1].toString()} and received ${result.size} result(s):")
+        println("${count++}) Queried ${query[0].toString()} to ${query[1].toString()} and received ${result.size} result(s):")
         println(result)
     }
 }
