@@ -35,7 +35,7 @@ fun test(test: Testcase) {
 
     var count = 1;
     test.queries.forEach { query ->
-        val result = tree.rangeQuery(query[0], query[1]).map { Point(it.x,it.y) }
+        val result = tree.rangeQuery(query[0], query[1]).map { Point(it.x,it.y) }.sortedWith(compareBy({it.x},{it.y}))
         println("${count++}) Queried ${query[0].toString()} to ${query[1].toString()} and received ${result.size} result(s):")
         println(result)
     }
