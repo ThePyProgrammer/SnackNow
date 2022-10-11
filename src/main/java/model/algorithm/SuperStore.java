@@ -36,6 +36,9 @@ public class SuperStore implements Mergeable<SuperStore>, Listlike<Item> {
         int p1 = 0;
         int p2 = 0;
 
+        allItems.sort(Item::compareTo);
+        store.allItems.sort(Item::compareTo);
+
         while(p1 != allItems.size() && p2 != store.allItems.size()) {
             Item item1 = allItems.get(p1);
             Item item2 = store.allItems.get(p2);
