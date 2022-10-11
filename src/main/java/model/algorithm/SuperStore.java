@@ -1,11 +1,11 @@
 package model.algorithm;
 
-import model.base.ListLike;
+import model.base.Listlike;
 import model.base.Mergeable;
 
 import java.util.ArrayList;
 
-public class SuperStore implements Mergeable<SuperStore>, ListLike<Item> {
+public class SuperStore implements Mergeable<SuperStore>, Listlike<Item> {
     public ArrayList<Item> allItems;
     // It is absolutely critical that allItems is always kept in alphabetical order
 
@@ -36,7 +36,8 @@ public class SuperStore implements Mergeable<SuperStore>, ListLike<Item> {
         int p1 = 0;
         int p2 = 0;
 
-        // TODO("Must sort all items")
+        allItems.sort(Item::compareTo);
+        store.allItems.sort(Item::compareTo);
 
         while(p1 != allItems.size() && p2 != store.allItems.size()) {
             Item item1 = allItems.get(p1);
