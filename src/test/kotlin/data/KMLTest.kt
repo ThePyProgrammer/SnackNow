@@ -1,5 +1,7 @@
 package data
 
 fun main() {
-    parseKML("data/hawker-centres.kml")
+    for (location in parseKML("data/hawker-centres.kml")) {
+        println(location.toString())
+    }
 }

@@ -17,31 +17,29 @@ fun parseKML(filename: String): ArrayList<Location> {
 
     val whyDoesJavaHaveSoManyFactories: XMLInputFactory = XMLInputFactory.newInstance()
     val locations = ArrayList<Location>()
+    var latitude = 0.0
+    var longitude = 0.0
+    var address = ""
     try {
-
         val fis = FileInputStream(filename)
         val reader: XMLEventReader = whyDoesJavaHaveSoManyFactories.createXMLEventReader(fis)
-
-
         while (reader.hasNext()) {
             var nextEvent: XMLEvent = reader.nextEvent()
-            var latitude = 0.0
-            var longitude = 0.0
-            var address = ""
             if (nextEvent.isStartElement) {
                 val startElement: StartElement = nextEvent.asStartElement()
+                // print(startElement.name.localPart)
                 when (startElement.name.localPart) {
-                    "placemark" -> {
+                    "Placemark" -> {
                         // start
                     }
-                    "point" -> {
+                    "coordinates" -> {
                         nextEvent = reader.nextEvent()
                         val point: String = nextEvent.asCharacters().data
                         val splitted = point.split(",")
                         latitude = splitted[0].toDouble()
                         longitude = splitted[1].toDouble()
                     }
-                    "simpledata" -> {
+                    "SimpleData" -> {
                         val name: Attribute? = startElement.getAttributeByName(QName("name"))
                         if (name != null) {
                             if (name.value.equals("ADDRESS_MYENV")) {
@@ -55,7 +53,7 @@ fun parseKML(filename: String): ArrayList<Location> {
             if (nextEvent.isEndElement) {
                 val endElement: EndElement = nextEvent.asEndElement()
                 when (endElement.name.localPart) {
-                    "placemark" -> {
+                    "Placemark" -> {
                         // end
                         val location = Location(address, latitude, longitude, null)
                         locations.add(location)
