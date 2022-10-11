@@ -93,9 +93,10 @@
 
 \section{Background}
 
-    Food expenses make up a large proportion of the monthly expenditures of lower income families. However, as they decide where to buy their groceries or what to get for dinner, they will tend to go to the supermarket that is close to their homes. However, sometimes they may be better off walking a little further to shop at an NTUC, rather than at the Cold Storage branch which marks up its products. When a family is visiting a new neighbourhood, they may not even be sure where they can get takeout for an affordable price. Thus, we seek to present the options in a concise interface that optimizes for price and distance, so that users can make more informed decisions on their food expenditures. 
-    
-    % Explain the use of spatial trees
+Lower income families are largely plagued by food expenses nowadays, with it making up a significant proportion of their monthly expenditures. Usually, selection of stores to go to for groceries and meals is largely predicated by convenience of distance, e.g. going to the nearest \textit{7-Eleven}. On the other hand, walking a bit further to the closest \textit{FairPrice} is considered another option over other nearby sources that tend to mark up their products. But what if such families enter a neighbourhood they are unfamiliar with? How can they be sure that they can get meals for affordable prices? In this study, we intend to prepare a platform to present such options in a relatively concise interfaces, that allows selection based on \textbf{both price and distance}. This selection is done via the use of Spatial R-Trees and QuadTrees
+
+
+This way, users can make more informed decisions on their food expenditures.
     
    
 \section{User Documentation}
@@ -112,7 +113,7 @@ analysis derivation and time complexity of the key methods of your tree structur
 
 
 \subsection{Spatial Quad-Trees}
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/quadtree.png}
     \caption{Quad-Tree visualization}
@@ -128,7 +129,7 @@ In terms of implementation, Quad-Trees are essentially self-balancing binary sea
 
 \subsection{Spatial R-Trees}
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/RTree.png}
     \caption{R-Tree visualization}
@@ -197,11 +198,11 @@ By helping out a here and there in each component of the project, and reviewing 
     & Vishal & Prannaya & Yu Pin & Vikram \\ [0.5ex] 
     \hline\hline
     Ideation & &  &  & \checkmark \\
-    R-Tree Implementation &  & \checkmark &  & \checkmark \\
+    R-Tree Implementation &  & \checkmark &  &  \\
     Quad-Tree Implementation &  &  &  & \checkmark \\
     Data Collection &  &  & \checkmark &  \\
     User Interface  & \checkmark & \checkmark &  &  \\
-    Report  & \checkmark &  &  &  \\
+    Report  & \checkmark & \checkmark  &  &  \\
     \hline
 \end{tabular}
 \end{center}
