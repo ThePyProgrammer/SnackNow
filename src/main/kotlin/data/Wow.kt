@@ -4,19 +4,22 @@ import model.base.Location
 import java.io.BufferedReader
 import java.io.FileReader
 import java.io.IOException
+import java.net.URL
 import java.util.regex.Pattern
 
 fun main() {
     try {
-        val someData: ArrayList<Location> = getConvenienceStores()
-        print(someData)
+        val someData: ArrayList<Location> = sevenElevens()
+        for (location in someData) {
+            println(location.toString())
+        }
     } catch (e: IOException) {
         throw RuntimeException(e)
     }
 }
 
 @Throws(IOException::class)
-fun getConvenienceStores(): ArrayList<Location> {
+fun sevenElevens(): ArrayList<Location> {
     val result = ArrayList<Location>()
     val pattern =
         Pattern.compile("showlocation\\(\"([\\w#.,'/@() \\-]+)\", \"([\\w#.,'/@() \\-]+)\", ([\\d.]+), ([\\d.]+)\\);")
@@ -28,12 +31,15 @@ fun getConvenienceStores(): ArrayList<Location> {
             while (line != null) {
                 val matcher = pattern.matcher(line)
                 if (matcher.matches()) {
-                    val location =
-                        Location(matcher.group(1), matcher.group(3).toDouble(), matcher.group(4).toDouble(), null)
-                    // check to remove funny africa point
-                    if (location.lat != 0.0) {
-                        result.add(location)
+                    val latitude = matcher.group(3).toDouble()
+                    if (latitude == 0.0) {
+                        // check to remove funny africa point
+                        continue
                     }
+                    val longitude = matcher.group(4).toDouble()
+                    val location =
+                        Location(matcher.group(1), latitude, longitude, URL("https://google.com/maps/search/?api=1&query=%.9f,%.9f".format(latitude, longitude)))
+                    result.add(location)
                 } else {
                     println("skill issue") // replace with error or better text
                 }
@@ -42,9 +48,7 @@ fun getConvenienceStores(): ArrayList<Location> {
         }
     } catch (exception: NumberFormatException) {
         exception.printStackTrace()
-    } /* finally {
-        // finally!
-    } */
+    }
     // the buffered reader auto closes after this try
     return result
 }
