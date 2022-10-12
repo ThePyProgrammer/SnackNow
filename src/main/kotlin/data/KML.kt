@@ -55,7 +55,7 @@ fun parseKML(filename: String): ArrayList<Location> {
                 when (endElement.name.localPart) {
                     "Placemark" -> {
                         // end
-                        val location = Location(address, latitude, longitude, null)
+                        val location = Location(address, latitude, longitude, getURL(latitude, longitude))
                         locations.add(location)
                     }
                 }

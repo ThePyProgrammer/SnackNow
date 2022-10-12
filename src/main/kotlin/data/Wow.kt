@@ -7,17 +7,6 @@ import java.io.IOException
 import java.net.URL
 import java.util.regex.Pattern
 
-fun main() {
-    try {
-        val someData: ArrayList<Location> = sevenElevens()
-        for (location in someData) {
-            println(location.toString())
-        }
-    } catch (e: IOException) {
-        throw RuntimeException(e)
-    }
-}
-
 @Throws(IOException::class)
 fun sevenElevens(): ArrayList<Location> {
     val result = ArrayList<Location>()
@@ -38,7 +27,7 @@ fun sevenElevens(): ArrayList<Location> {
                     }
                     val longitude = matcher.group(4).toDouble()
                     val location =
-                        Location(matcher.group(1), latitude, longitude, URL("https://google.com/maps/search/?api=1&query=%.9f,%.9f".format(latitude, longitude)))
+                        Location(matcher.group(1), latitude, longitude, getURL(latitude, longitude))
                     result.add(location)
                 } else {
                     println("skill issue") // replace with error or better text
@@ -51,4 +40,8 @@ fun sevenElevens(): ArrayList<Location> {
     }
     // the buffered reader auto closes after this try
     return result
+}
+
+fun getURL(latitude: Double, longitude: Double): URL {
+    return URL("https://google.com/maps/search/?api=1&query=%.9f,%.9f".format(latitude, longitude))
 }
