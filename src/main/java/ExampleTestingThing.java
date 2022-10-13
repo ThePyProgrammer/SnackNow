@@ -3,24 +3,35 @@ import model.algorithm.QuadTree;
 import model.algorithm.SuperStore;
 import model.base.Point;
 
+import java.util.ArrayList;
+
 public class ExampleTestingThing {
     public static void main(String[] args) {
 
         QuadTree<SuperStore, Item> tree = new QuadTree<>(new Point(0, 0.01), new Point(0.01, 0));
         // Note that it's x, y, which means that the top left and bottom right are defined a little unintuitively
 
-        SuperStore store1 = new SuperStore();
-        SuperStore store2 = new SuperStore();
-
-        store1.addItem(new Item("Cocaine", "Outside", new Point(0.003, 0.003), 50));
-        store2.addItem(new Item("Cocaine", "Outside v2", new Point(0.008, 0.004), 100));
-        store2.addItem(new Item("Heroin", "Outside v2", new Point(0.008, 0.004), 20));
 
         // Note that while superstores have a position, they are implicitly min-size quads
 
-        tree.insert(store1, new Point(0.003, 0.003));
-        tree.insert(store2, new Point(0.008, 0.004));
+        for(double i = 0; i < 0.01; i = i + 0.001) {
+            for(double j = 0; j < 0.01; j = j + 0.001) {
+                Point p = new Point(i, j);
+                SuperStore store = new SuperStore();
+                store.addItem(new Item("dummy", "test", p, 1));
+                tree.insert(store, p);
+            }
+        }
 
-        System.out.println(tree.rangeQuery(new Point(0, 0.01), new Point(0.01, 0)).toString());
+        System.out.println();
+        System.out.println("Printing Query 1");
+        printPositions(tree.rangeQuery(new Point(0, 0.01), new Point(0.01, 0)));
+    }
+
+    public static void printPositions(ArrayList<Item> arr) {
+        System.out.println("Number of elements: " + arr.size());
+        for(Item i : arr) {
+            System.out.println(i.getX() + " : " + i.getY());
+        }
     }
 }

@@ -40,20 +40,20 @@ public class QuadNode<T> extends Node<T> {
     }
 
     public boolean inBounds(Point pos) {
-        return topLeft.x <= pos.x && pos.x <= bottomRight.x
-                && topLeft.y >= pos.y && pos.y >= bottomRight.y;
+        return topLeft.getX() <= pos.getX() && pos.getX() <= bottomRight.getX()
+                && topLeft.getY() >= pos.getY() && pos.getY() >= bottomRight.getY();
     }
 
     public boolean hasOverlap(Point topLeft, Point bottomRight) {
         // Checks if the two rectangles have any overlap
-        return !(topLeft.y < this.bottomRight.y || bottomRight.y > this.topLeft.y
-                || topLeft.x > this.bottomRight.x || bottomRight.x < this.topLeft.x);
+        return !(topLeft.getY() < this.bottomRight.getY() || bottomRight.getY() > this.topLeft.getY()
+                || topLeft.getX() > this.bottomRight.getX() || bottomRight.getX() < this.topLeft.getX());
     }
 
     public boolean whollyWithin(Point topLeft, Point bottomRight) {
         // Checks if this quad is wholly within the provided rectangle
-        return (topLeft.y >= this.topLeft.y && bottomRight.y <= this.bottomRight.y
-                && topLeft.x <= this.topLeft.x && bottomRight.x >= this.bottomRight.x);
+        return (topLeft.getY() >= this.topLeft.getY() && bottomRight.getY() <= this.bottomRight.getY()
+                && topLeft.getX() <= this.topLeft.getX() && bottomRight.getX() >= this.bottomRight.getX());
     }
 
     public void setItem(T value, Point newPos) {

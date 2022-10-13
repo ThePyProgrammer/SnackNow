@@ -93,7 +93,7 @@
 
 \section{Background}
 
-Lower income families are largely plagued by food expenses nowadays, with it making up a significant proportion of their monthly expenditures. Usually, selection of stores to go to for groceries and meals is largely predicated by convenience of distance, e.g. going to the nearest \textit{7-Eleven}. On the other hand, walking a bit further to the closest \textit{FairPrice} is considered another option over other nearby sources that tend to mark up their products. But what if such families enter a neighbourhood they are unfamiliar with? How can they be sure that they can get meals for affordable prices? In this study, we intend to prepare a platform to present such options in a relatively concise interfaces, that allows selection based on \textbf{both price and distance}. This selection is done via the use of Spatial R-Trees and QuadTrees
+Lower income families are largely plagued by food expenses nowadays, with it making up a significant proportion of their monthly expenditures. Usually, selection of stores to go to for groceries and meals is largely predicated by convenience of distance, e.g. going to the nearest \textit{7-Eleven}. On the other hand, walking a bit further to the closest \textit{FairPrice} is considered another option over other nearby sources that tend to mark up their products. But what if such families enter a neighbourhood they are unfamiliar with? How can they be sure that they can get meals for affordable prices? In this study, we intend to prepare a platform to present such options in a relatively concise interfaces, that allows selection based on \textbf{both price and distance}. This selection is done via the use of Spatial R-Trees and QuadTrees.
 
 
 This way, users can make more informed decisions on their food expenditures.
@@ -111,11 +111,10 @@ analysis derivation and time complexity of the key methods of your tree structur
 
 
 
-
 \subsection{Spatial Quad-Trees}
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{../img/quadtree.png}
+    \includegraphics[scale=0.3]{../img/quadtree.png}
     \caption{Quad-Tree visualization}
     \label{fig:my_label}
 \end{figure}
@@ -125,13 +124,13 @@ Quad-Trees address this by also splitting up the map into four quadrants and rec
 
 \subsubsection{Algorithm}
 
-In terms of implementation, Quad-Trees are essentially self-balancing binary search trees where the internal nodes have degree four instead of two. Thus we will focus on tree rotation, which is 
+In terms of implementation, Quad-Trees are essentially binary search trees where the internal nodes have degree four instead of two. 
 
 \subsection{Spatial R-Trees}
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{../img/RTree.png}
+    \includegraphics[scale=0.3]{../img/RTree.png}
     \caption{R-Tree visualization}
     \label{fig:my_label}
 \end{figure}
@@ -151,6 +150,7 @@ Another approach to storing points in space, especially for our purposes of near
 You are to provide at least \textbf{3 test cases} you used to test the correctness and
 robustness of your program. Log down the sample input and output for each test case.
 Briefly explain why each test case was chosen.
+
 
 
 \section{Results}
