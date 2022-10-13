@@ -18,14 +18,15 @@ public class ExampleTestingThing {
             for(double j = 0; j < 0.01; j = j + 0.001) {
                 Point p = new Point(i, j);
                 SuperStore store = new SuperStore();
-                store.addItem(new Item("dummy", "test", p, 1));
+                store.addItem(new Item("dummy"+i+j, "test", p, 1));
                 tree.insert(store, p);
             }
         }
 
         System.out.println();
         System.out.println("Printing Query 1");
-        printPositions(tree.rangeQuery(new Point(0, 0.01), new Point(0.01, 0)));
+        printPositions(tree.rangeQuery(new Point(0.00050, 0.00815), new Point(0.0019, 0.00094)));
+        System.out.println(tree.debugging_counter);
     }
 
     public static void printPositions(ArrayList<Item> arr) {

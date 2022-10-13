@@ -46,6 +46,12 @@ public class QuadNode<T> extends Node<T> {
 
     public boolean hasOverlap(Point topLeft, Point bottomRight) {
         // Checks if the two rectangles have any overlap
+
+        // If the bottom of this is above
+        // Or if the top of this is below
+        // Or if the left of this is right
+        // Or if the right of this is left
+        // Then it has no overlap
         return !(topLeft.getY() < this.bottomRight.getY() || bottomRight.getY() > this.topLeft.getY()
                 || topLeft.getX() > this.bottomRight.getX() || bottomRight.getX() < this.topLeft.getX());
     }

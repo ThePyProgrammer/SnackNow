@@ -31,7 +31,7 @@ public class SuperStore implements Mergeable<SuperStore>, Listlike<Item> {
     }
 
     @Override
-    public SuperStore merge(SuperStore store) {
+    public void merge(SuperStore store) {
         ArrayList<Item> out = new ArrayList<>();
         int p1 = 0;
         int p2 = 0;
@@ -74,7 +74,7 @@ public class SuperStore implements Mergeable<SuperStore>, Listlike<Item> {
             p2++;
         }
 
-        return new SuperStore(out);
+        allItems = out;
         //TODO hope and pray that this actually works
     }
 
