@@ -1,5 +1,8 @@
 package model.algorithm.rtree
 
+import model.base.Point
+import java.io.File
+
 fun fillCoords(x: Float, y: Float = x) = arrayOf(x, y)
 
 val ZEROS = fillCoords(0.0f)
@@ -7,6 +10,25 @@ val ONES = fillCoords(1.0f)
 val POINT_FIVES = fillCoords(0.5f)
 val NEG_ONES = fillCoords(-1.0f)
 val NEG_POINT_FIVES = fillCoords(-0.5f)
+
+class Testcase(val bounds: List<Point>, val inserts: List<Point>, val queries: List<List<Point>>)
+
+fun readCSV(filename: String) : Testcase {
+    val file = File(filename)
+    val lines = file.readLines()
+    val tmp = lines[0].split(",").map { it.toDouble() }
+    val bounds = listOf(Point(tmp[0], tmp[1]), Point(tmp[2], tmp[3]))
+    val n = lines[1].split(",")[0].toInt()
+    val inserts = lines.subList(2, n + 2)
+        .map { it.split(",") }
+        .map { Point(it[0].toDouble(), it[1].toDouble()) }
+    val queries = lines.subList(n + 2, lines.size)
+        .map { it.split(",") }
+        .map { it.map{ it.toDouble() } }
+        .map { listOf(Point(it[0], it[1]), Point(it[2], it[3])) }
+    return Testcase(bounds, inserts, queries)
+}
+
 
 fun testCreation() {
     val rt = RTree<Float>()
@@ -69,6 +91,23 @@ fun testRemoveAll() {
     val results: List<Int> = rt.search(sCoords, sDims)
 }
 
+fun testGrid() {
+    val testcase = readCSV("src/test/kotlin/model/algorithm/rtree/testdata/grid.csv")
+    val rt = RTree<Float>();
+
+    var count = 1.0f
+    for(insert in testcase.inserts) {
+        rt.insert(arrayOf( insert.x.toFloat(),insert.y.toFloat()), arrayOf( insert.x.toFloat(),insert.y.toFloat()),count++)
+    }
+    for(query in testcase.queries) {
+        val results: List<Float> = rt.search(arrayOf(query[0].x.toFloat(),query[0].y.toFloat()), arrayOf(query[1].x.toFloat(),query[1].y.toFloat()))
+
+        println("Found ${results.size} matches")
+        for(result in results.sorted()) print("$result ")
+        println()
+    }
+
+}
 
 
 fun main() {
@@ -84,6 +123,9 @@ fun main() {
     testEmpty()
     println("======== TEST SPLIT NODES =======")
     testSplitNodeSmall()
+    println("======== TEST GRID =======")
+    testGrid()
+
 
 }
 
