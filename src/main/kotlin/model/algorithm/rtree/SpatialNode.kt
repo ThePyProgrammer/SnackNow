@@ -1,6 +1,6 @@
 package model.algorithm.rtree
 
-import model.algorithm.base.Node
+import model.base.Node
 import util.replaceAllNulls
 import java.util.*
 

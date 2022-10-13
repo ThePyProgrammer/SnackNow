@@ -74,7 +74,7 @@ class RTree<T>(
 
         val deltas = coords.zip(dimensions).mapIndexed { i, pair ->
             if(pair.first + pair.second <= e.coords[i] + e.dimensions[i])
-                e.coords[i] + e.dimensions[i] - pair.first - pair.second
+                (e.coords[i] + e.dimensions[i] - pair.first - pair.second)
             else pair.first - e.coords[i]
         }.toTypedArray()
 

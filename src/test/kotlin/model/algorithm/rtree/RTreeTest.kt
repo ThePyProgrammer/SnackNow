@@ -97,14 +97,17 @@ fun testGrid() {
 
     var count = 1.0f
     for(insert in testcase.inserts) {
+//        println(insert)
         rt.insert(arrayOf( insert.x.toFloat(),insert.y.toFloat()), arrayOf( insert.x.toFloat(),insert.y.toFloat()),count++)
     }
     for(query in testcase.queries) {
-        val results: List<Float> = rt.search(arrayOf(query[0].x.toFloat(),query[0].y.toFloat()), arrayOf(query[1].x.toFloat(),query[1].y.toFloat()))
+        println(query)
+        val results: List<Float> = rt.search(arrayOf(query[0].x.toFloat(),query[1].y.toFloat()), arrayOf(query[1].x.toFloat(),query[0].y.toFloat()))
 
         println("Found ${results.size} matches")
         for(result in results.sorted()) print("$result ")
         println()
+        break
     }
 
 }
