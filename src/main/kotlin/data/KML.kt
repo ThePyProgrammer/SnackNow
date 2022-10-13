@@ -23,7 +23,8 @@ fun parseKML(filename: String): ArrayList<Location> {
     try {
         val fis = FileInputStream(filename)
         val reader: XMLEventReader = whyDoesJavaHaveSoManyFactories.createXMLEventReader(fis)
-        while (reader.hasNext()) {
+        var ended = false
+        while (reader.hasNext() && !ended) {
             var nextEvent: XMLEvent = reader.nextEvent()
             if (nextEvent.isStartElement) {
                 val startElement: StartElement = nextEvent.asStartElement()
@@ -42,9 +43,29 @@ fun parseKML(filename: String): ArrayList<Location> {
                     "SimpleData" -> {
                         val name: Attribute? = startElement.getAttributeByName(QName("name"))
                         if (name != null) {
-                            if (name.value.equals("ADDRESS_MYENV")) {
-                                nextEvent = reader.nextEvent()
-                                address = nextEvent.asCharacters().data
+                            when (name.value) {
+                                // hawker-centres.kml
+                                "ADDRESS_MYENV" -> {
+                                    nextEvent = reader.nextEvent()
+                                    address = nextEvent.asCharacters().data
+                                }
+                                // supermarkets.kml
+                                "BLK_HOUSE" -> {
+                                    nextEvent = reader.nextEvent()
+                                    address = nextEvent.asCharacters().data
+                                }
+                                "STR_NAME" -> {
+                                    nextEvent = reader.nextEvent()
+                                    address += " ${nextEvent.asCharacters().data}"
+                                }
+                                "UNIT_NO" -> { // to remove
+                                    nextEvent = reader.nextEvent()
+                                    address += " #01-${nextEvent.asCharacters().data}"
+                                }
+                                "POSTCODE" -> {
+                                    nextEvent = reader.nextEvent()
+                                    address += ", Singapore ${nextEvent.asCharacters().data}"
+                                }
                             }
                         }
                     }
@@ -54,9 +75,13 @@ fun parseKML(filename: String): ArrayList<Location> {
                 val endElement: EndElement = nextEvent.asEndElement()
                 when (endElement.name.localPart) {
                     "Placemark" -> {
-                        // end
+                        // end of one location
                         val location = Location(address, latitude, longitude, getURL(latitude, longitude))
                         locations.add(location)
+                    }
+                    "kml" -> {
+                        // end of everything
+                        ended = true
                     }
                 }
             }
