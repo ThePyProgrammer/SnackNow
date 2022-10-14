@@ -1,12 +1,15 @@
 package model.algorithm.rtree
 
-fun fillCoords(x: Float, y: Float = x) = arrayOf(x, y)
+import model.base.Point
 
-val ZEROS = fillCoords(0.0f)
-val ONES = fillCoords(1.0f)
-val POINT_FIVES = fillCoords(0.5f)
-val NEG_ONES = fillCoords(-1.0f)
-val NEG_POINT_FIVES = fillCoords(-0.5f)
+fun fillCoords(x: Double, y: Double = x) = arrayOf(x, y)
+
+val ZEROS = fillCoords(0.0)
+val ONES = fillCoords(1.0)
+val POINT_FIVES = fillCoords(0.5)
+val NEG_ONES = fillCoords(-1.0)
+val NEG_POINT_FIVES = fillCoords(-0.5)
+
 
 fun testCreation() {
     val rt = RTree<Float>()
@@ -15,8 +18,8 @@ fun testCreation() {
 fun testInsertPoint() {
     val rt = RTree<Float>()
     val price = 3.5f
-    rt.insert(ZEROS, ZEROS, price)
-    val results: List<Float> = rt.search(NEG_ONES, fillCoords(2.0f))
+    rt.insert(Point(), ZEROS, price)
+    val results: List<Float> = rt.search(Point(NEG_ONES), fillCoords(2.0))
     for(result in results) print("$result ")
     println()
 }
@@ -24,49 +27,49 @@ fun testInsertPoint() {
 fun testInsertRect() {
     val rt = RTree<Float>()
     val price = 3.5f
-    rt.insert(ZEROS, ONES, price)
-    val results: List<Float> = rt.search(NEG_ONES, fillCoords(3.0f))
+    rt.insert(Point(), ONES, price)
+    val results: List<Float> = rt.search(Point(NEG_ONES), fillCoords(3.0))
     for(result in results) print("$result ")
     println()
 }
 
 fun testInsertNegativeCoords() {
-    val rt = RTree<Float>().apply {
-        insert(NEG_ONES, POINT_FIVES, 5.5F)
-        insert(POINT_FIVES, ONES, 3.5F)
+    val rt = RTree<Double>().apply {
+        insert(Point(NEG_ONES), POINT_FIVES, 5.5)
+        insert(Point(POINT_FIVES), ONES, 3.5)
     }
-    var results: List<Float> = rt.search(NEG_POINT_FIVES, ZEROS)
+    var results: List<Double> = rt.search(Point(NEG_POINT_FIVES), ZEROS)
     for(result in results) print("$result ")
     println()
-    results = rt.search(POINT_FIVES, ZEROS)
+    results = rt.search(Point(POINT_FIVES), ZEROS)
     for(result in results) print("$result ")
     println()
 }
 
 fun testEmpty() {
-    val rt = RTree<Float>().apply { insert(ZEROS, ZEROS, 4.5F) }
-    val results: List<Float> = rt.search(fillCoords(-1.0f), fillCoords(0.5f))
+    val rt = RTree<Double>().apply { insert(Point(), ZEROS, 4.5) }
+    val results: List<Double> = rt.search(Point(fillCoords(-1.0)), fillCoords(0.5))
     println(results.size)
 }
 
 fun expSetUp(seedPicker: RTree.SeedPicker = RTree.SeedPicker.LINEAR) = RTree<Int>(2, 1, 2, seedPicker).apply {
     for(i in 0..3) {
-        insert(fillCoords(i.toFloat()), fillCoords(0.5f), i)
+        insert(Point(fillCoords(i.toDouble())), fillCoords(0.5), i)
     }
 }
 
 fun testSplitNodeSmall() {
     val rt = expSetUp(RTree.SeedPicker.QUADRATIC)
-    val results: List<Int> = rt.search(fillCoords(2.0f), fillCoords(0.5f))
+    val results: List<Int> = rt.search(Point(fillCoords(2.0)), fillCoords(0.5))
     for(result in results) print("$result ")
     println()
 }
 
 fun testRemoveAll() {
     val rt = expSetUp()
-    val sCoords = fillCoords(-0.5f * Float.MAX_VALUE)
-    val sDims = fillCoords(Float.MAX_VALUE)
-    val results: List<Int> = rt.search(sCoords, sDims)
+    val sCoords = fillCoords(-0.5 * Double.MAX_VALUE)
+    val sDims = fillCoords(Double.MAX_VALUE)
+    val results: List<Int> = rt.search(Point(sCoords), sDims)
 }
 
 
