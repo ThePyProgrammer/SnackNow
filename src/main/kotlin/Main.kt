@@ -27,11 +27,12 @@ fun App() {
     var text by remember { mutableStateOf("") }
     val priority = mutableStateOf("High")
     val queries = mutableStateOf(10)
-    val results = listOf(
-        Result("Cool Ranch Doritos Chips", 5.50, "7 Eleven, Simei Street 1"),
-        Result("Cool Ranch Doritos Chips", 5.50, "7 Eleven, Simei Street 3"),
-        Result("Doritos - Cool Ranch Flavour", 3.50, "FairPrice, EastPoint Mall, Simei Street 3"),
-        Result("Cool Ranch Doritos Chips", 5.50, "7 Eleven, Simei Street 4"),
+    val results = mutableListOf(
+        Result("Air, 1 atm", 0.00, "Wherever you are right now"),
+        Result("Cool Ranch Doritos Chip (1 chip only)", 5.50, "7 Eleven, Simei Street 1"),
+        Result("Cool Ranch Doritos Chips", 5.49, "7 Eleven, Simei Street -300000000"),
+        Result("Doritos - Cool Ranch Flavour", 3.50, "FairPrice, EastPoint Mall, 3 Simei Street 6, Singapore 528833"),
+        Result("Warm Ranch Doritos Chips", 5.51, "7 Eleven, Simei Street 1 + √3i"),
     )
 
     MaterialTheme {
@@ -69,6 +70,9 @@ fun App() {
                         Button(
                             onClick = {
                                 // TODO
+                                // just a test
+                                // adds to the bottom of the results list (preferably the results list should clear beforehand)
+                                results.add(Result(text, 0.00, text))
                             }
                         ) { Text("SEARCH") }
                     }
@@ -102,7 +106,7 @@ fun main() = application {
         width = 800.dp,
         height = 600.dp
     )
-    var windowTitle by remember { mutableStateOf("SnackNow") }
+    val windowTitle by remember { mutableStateOf("SnackNow") }
     Window(
         title = windowTitle,
         resizable = true,
