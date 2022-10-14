@@ -77,12 +77,10 @@ public class QuadTree<T extends Mergeable<? super T> & Listlike<E>, E extends Po
         else if(curr.isEmpty()) { // We can't subdivide further
             // Oh hey, it's conveniently empty, don't mind if I do
             curr.setItem(item, pos);
-            debugging_counter++;
         }
         else { // We can't subdivide further
             //Oh well, guess I'll merge
             curr.getItem().merge(item); // This is always safe, I mean, it really should be
-            debugging_counter++;
         }
     }
 
