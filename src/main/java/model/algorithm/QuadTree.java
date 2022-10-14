@@ -34,8 +34,8 @@ public class QuadTree<T extends Mergeable<? super T> & Listlike<E>, E extends Po
             double mid_x = (curr.topLeft.getX() + curr.bottomRight.getX()) / 2;
             double mid_y = (curr.topLeft.getY() + curr.bottomRight.getY()) / 2;
 
-            if(pos.getY() >= mid_x) { // Top Half
-                if(pos.getX() <= mid_y) { // Left Half
+            if(pos.getY() >= mid_y) { // Top Half
+                if(pos.getX() <= mid_x) { // Left Half
                     if(curr.neighbours[0] == null) {
                         curr.neighbours[0] = new QuadNode<>(null,
                                 new Point(curr.topLeft), new Point(mid_x, mid_y));
@@ -53,7 +53,7 @@ public class QuadTree<T extends Mergeable<? super T> & Listlike<E>, E extends Po
                 }
             }
             else { // Bottom Half
-                if(pos.getX() <= mid_y) { // Left Half
+                if(pos.getX() <= mid_x) { // Left Half
                     if(curr.neighbours[2] == null) {
                         curr.neighbours[2] = new QuadNode<>(null,
                                 new Point(curr.topLeft.getX(), mid_y), new Point(mid_x, curr.bottomRight.getY()));
@@ -125,9 +125,7 @@ public class QuadTree<T extends Mergeable<? super T> & Listlike<E>, E extends Po
             }
         }
         else {
-            System.out.print(curr.bottomRight);
-            System.out.print(" : ");
-            System.out.println(curr.topLeft);
+            System.out.println(curr.bottomRight);
             debugging_counter += curr.getItem().listOut().size();
             // Wait, so I am traversing correctly?
         }

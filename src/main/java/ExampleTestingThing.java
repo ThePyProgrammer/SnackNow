@@ -22,6 +22,7 @@ public class ExampleTestingThing {
                 tree.insert(store, p);
             }
         }
+        tree.printAll(tree.getRoot());
 
         System.out.println();
         System.out.println("Printing Query 1");
