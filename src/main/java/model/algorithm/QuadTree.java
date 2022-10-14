@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class QuadTree<T extends Mergeable<? super T> & Listlike<E>, E extends Point> {
     // This thing is an abomination, next time I should just hardcode this nonsense
     private QuadNode<T> root;
-    private final double minDim = 0.0009; // 1 lat/long is 110.6 km, resolution of around 100m here
+    private final double minDim = 0.00045; // 1 lat/long is 110.6 km, resolution of around 50m here
     public int debugging_counter = 0;
 
     public QuadTree(Point topLeft, Point bottomRight) {
