@@ -9,10 +9,11 @@ import java.util.ArrayList;
 public class QuadTree<T extends Mergeable<? super T> & Listlike<E>, E extends Point> {
     // This thing is an abomination, next time I should just hardcode this nonsense
     private QuadNode<T> root;
-    private final double minDim = 0.0009; // 1 lat/long is 110.6 km, resolution of around 100m here
+    private final double minDim = 0.00045; // 1 lat/long is 110.6 km, resolution of around 50m here
+    public int debugging_counter = 0;
 
     public QuadTree(Point topLeft, Point bottomRight) {
-        this.root = new QuadNode<>(null, null, topLeft, bottomRight);
+        this.root = new QuadNode<>(null, topLeft, bottomRight);
     }
 
     public void insert(T item, Point pos) { // Nice and shiny
@@ -33,42 +34,40 @@ public class QuadTree<T extends Mergeable<? super T> & Listlike<E>, E extends Po
             double mid_x = (curr.topLeft.getX() + curr.bottomRight.getX()) / 2;
             double mid_y = (curr.topLeft.getY() + curr.bottomRight.getY()) / 2;
 
-            Point currPos = curr.itemPos;
-
-            if(pos.getY() >= mid_x) { // Top Half
-                if(pos.getX() <= mid_y) { // Left Half
+            if(pos.getY() >= mid_y) { // Top Half
+                if(pos.getX() <= mid_x) { // Left Half
                     if(curr.neighbours[0] == null) {
-                        curr.neighbours[0] = new QuadNode<>(null, null,
+                        curr.neighbours[0] = new QuadNode<>(null,
                                 new Point(curr.topLeft), new Point(mid_x, mid_y));
                     }
 
-                    insert(item, pos, (QuadNode<T>) curr.neighbours[0]);
+                    insert(item, pos, curr.neighbours[0]);
                 }
                 else { // Right Half
                     if(curr.neighbours[1] == null) {
-                        curr.neighbours[1] = new QuadNode<>(null, null,
+                        curr.neighbours[1] = new QuadNode<>(null,
                                 new Point(mid_x, curr.topLeft.getY()), new Point(curr.bottomRight.getX(), mid_y));
                     }
 
-                    insert(item, pos, (QuadNode<T>) curr.neighbours[1]);
+                    insert(item, pos, curr.neighbours[1]);
                 }
             }
             else { // Bottom Half
-                if(pos.getX() <= mid_y) { // Left Half
+                if(pos.getX() <= mid_x) { // Left Half
                     if(curr.neighbours[2] == null) {
-                        curr.neighbours[2] = new QuadNode<>(null, null,
+                        curr.neighbours[2] = new QuadNode<>(null,
                                 new Point(curr.topLeft.getX(), mid_y), new Point(mid_x, curr.bottomRight.getY()));
                     }
 
-                    insert(item, pos, (QuadNode<T>) curr.neighbours[2]);
+                    insert(item, pos, curr.neighbours[2]);
                 }
                 else { // Right Half
                     if(curr.neighbours[3] == null) {
-                        curr.neighbours[3] = new QuadNode<>(null, null,
+                        curr.neighbours[3] = new QuadNode<>(null,
                                 new Point(mid_x, mid_y), new Point(curr.bottomRight));
                     }
 
-                    insert(item, pos, (QuadNode<T>) curr.neighbours[3]);
+                    insert(item, pos, curr.neighbours[3]);
                 }
             }
         }
@@ -77,12 +76,11 @@ public class QuadTree<T extends Mergeable<? super T> & Listlike<E>, E extends Po
 
         else if(curr.isEmpty()) { // We can't subdivide further
             // Oh hey, it's conveniently empty, don't mind if I do
-            curr.setItem(item, pos);
+            curr.setItem(item);
         }
         else { // We can't subdivide further
             //Oh well, guess I'll merge
-            if (curr.isEmpty()) curr.setItem(item, pos);
-            else curr.setItem((T) curr.getItem().merge(item)); // This is always safe, I mean, it really should be
+            curr.getItem().merge(item); // This is always safe, I mean, it really should be
         }
     }
 
@@ -112,11 +110,28 @@ public class QuadTree<T extends Mergeable<? super T> & Listlike<E>, E extends Po
     private void rangeQuery(ArrayList<E> out, QuadNode<T> curr) {
         // For when the query fully covers the quad
         if (curr.isEmpty()) {
-            for (QuadNode<T> child : (QuadNode<T>[]) curr.neighbours) {
+            for (QuadNode<T> child : curr.neighbours) {
                 if(child != null) rangeQuery(out, child);
             }
+            return;
         }
-        else out.addAll(curr.getItem().listOut());
+        out.addAll(curr.getItem().listOut());
     }
 
+    public void printAll(QuadNode<T> curr) {
+        if(curr.isEmpty()) {
+            for (QuadNode<T> child : curr.neighbours) {
+                if(child != null) printAll(child);
+            }
+        }
+        else {
+            System.out.println(curr.bottomRight);
+            debugging_counter += curr.getItem().listOut().size();
+            // Wait, so I am traversing correctly?
+        }
+    }
+
+    public QuadNode<T> getRoot() {
+        return root;
+    }
 }

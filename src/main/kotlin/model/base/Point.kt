@@ -6,7 +6,10 @@ open class Point(public var x: Double = 0.0, public var y: Double = 0.0) {
     constructor(p: Point) : this(p.x, p.y)
     constructor(arr: Array<Double>) : this(arr[0], arr[1])
     fun isEqualTo(p: Point) = x == p.x && y == p.y
-    fun isInside(topLeft: Point, bottomRight: Point): Boolean = x <= topLeft.x && y <= topLeft.y && x >= bottomRight.x && y >= bottomRight.y
+    fun isInside(topLeft: Point, bottomRight: Point): Boolean {
+        return topLeft.x <= x && x <= bottomRight.x
+                && topLeft.y >= y && y >= bottomRight.y
+    }
     override fun toString() = String.format("(%.5f, %.5f)", x, y)
     fun toArray() = arrayOf(x, y)
 

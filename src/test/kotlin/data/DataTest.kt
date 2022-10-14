@@ -27,7 +27,6 @@ fun main() {
     }
 
     for (location in allData) {
-        allData.add(location)
         println(location.toString())
     }
 

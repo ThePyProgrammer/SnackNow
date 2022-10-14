@@ -1,5 +1,5 @@
 package model.base;
 
 public interface Mergeable<T> {
-    T merge(T input);
+    void merge(T input);
 }
