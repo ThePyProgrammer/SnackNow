@@ -5,7 +5,6 @@ import model.base.Point;
 
 public class QuadNode<T> extends Node<T> {
 
-    Point itemPos;
     Point topLeft;
     Point bottomRight;
 
@@ -13,19 +12,17 @@ public class QuadNode<T> extends Node<T> {
 
     // For the neighbours array, 0 is top left, 1 is top right, 2 is bottom left, 3 is bottom right
 
-    public QuadNode(T item, Point itemPos, Point topLeft, Point bottomRight) {
+    public QuadNode(T item, Point topLeft, Point bottomRight) {
         super(item, 4);
 
-        this.itemPos = itemPos;
         this.topLeft = topLeft;
         this.bottomRight = bottomRight;
         this.neighbours = new QuadNode[4];
     }
 
-    public QuadNode(T item, Point itemPos, Point topLeft, Point bottomRight, int num_neighbours) {
+    public QuadNode(T item, Point topLeft, Point bottomRight, int num_neighbours) {
         super(item, num_neighbours);
 
-        this.itemPos = itemPos;
         this.topLeft = topLeft;
         this.bottomRight = bottomRight;
         this.neighbours = new QuadNode[num_neighbours];
@@ -33,7 +30,7 @@ public class QuadNode<T> extends Node<T> {
 
     public QuadNode(QuadNode<T> n) {
         super(n);
-        this.itemPos = n.itemPos;
+
         this.topLeft = n.topLeft;
         this.bottomRight = n.bottomRight;
         this.neighbours = n.neighbours;
@@ -62,15 +59,6 @@ public class QuadNode<T> extends Node<T> {
                 && topLeft.getX() <= this.topLeft.getX() && bottomRight.getX() >= this.bottomRight.getX());
     }
 
-    public void setItem(T value, Point newPos) {
-        setItem(value);
-        itemPos = newPos;
-    }
-
-    public void clearItem() {
-        setItem(null);
-        itemPos = null;
-    }
 
     public void clearItem(T value) {
         throw new IllegalArgumentException("Do not actually use the version of clearItem in QuadNode with an argument,"

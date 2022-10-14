@@ -25,7 +25,8 @@ public class ExampleTestingThing {
 
         System.out.println();
         System.out.println("Printing Query 1");
-        printPositions(tree.rangeQuery(new Point(0.00050, 0.00815), new Point(0.0019, 0.00094)));
+        printPositions(tree.rangeQuery(new Point(0.00050, 0.0085), new Point(0.0015, 0.00095)));
+        // This is still subtly broken, I think
         System.out.println(tree.debugging_counter);
     }
 
