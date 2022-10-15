@@ -53,7 +53,7 @@ private val postalCodeThingy = mutableMapOf<Int, Location>()
 
 fun initPostalCodeThingy() {
     try {
-        val file: File = File("data/database.csv")
+        val file = File("data/database.csv")
         val rows: List<List<String>> = csvReader().readAll(file)
         for (line: List<String> in rows) {
             val address = line[0]
@@ -71,10 +71,10 @@ fun initPostalCodeThingy() {
 }
 
 fun getLocationFromPostalCode(postalCode: String): Location? {
-    try {
-        return postalCodeThingy[postalCode.toInt()]
+    return try {
+        postalCodeThingy[postalCode.toInt()]
     } catch (e: Exception) {
-        return null
+        null
     }
 }
 
