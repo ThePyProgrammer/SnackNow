@@ -30,6 +30,12 @@ public class SuperStore implements Mergeable<SuperStore>, Listlike<Item> {
         // There is no removal method, because that doesn't really make sense
     }
 
+    public void addItems(ArrayList<Item> items) {
+        for (Item item : items) {
+            this.addItem(item);
+        }
+    }
+
     /*
     @Override
     public void merge(SuperStore store) {
