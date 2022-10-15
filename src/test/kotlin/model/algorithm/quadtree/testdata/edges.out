@@ -1,0 +1,1 @@
+Exception in thread "main" java.lang.IndexOutOfBoundsException: Point outside of bounding box of QuadTree!
