@@ -49,7 +49,7 @@
 \usepackage{tikz}
 \def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
 \usepackage[sorting=none]{biblatex}
-\addbibresource{references.bib}
+\addbibresource{main.bib}
 
 \newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
 \onehalfspacing
@@ -170,7 +170,7 @@ Quad-Trees are commonly used in analysing the distribution of a collection in 2D
 
 \subsubsection{Why Quad-Trees?}
 
-So, given the above issues, why did we choose Quad-Trees? Quad-Trees address this by adopting a recursive subdivision approach to grid-propagation. That is, a quadrant is subdivided only during when there is a child node to be inserted into the quadrant. The depth of the tree is thus proportional to the log of the local density of points, which results in many speedups. Empty areas have very low depth, and dense areas have fewer "collisions".
+So, given the above issues, why did we choose Quad-Trees? Quad-Trees address this by adopting a recursive subdivision approach to grid-propagation~\cite{rvqtree}. That is, a quadrant is subdivided only during when there is a child node to be inserted into the quadrant. The depth of the tree is thus proportional to the log of the local density of points, which results in many speedups. Empty areas have very low depth, and dense areas have fewer "collisions".
 
 This is particularly relevant in our case, because stores selling goods are very much not uniformly distributed throughout space. Many parts of Singapore, such as housing areas, will obviously have a relatively lower density of food-sellers than a large shopping mall. There is a hierarchy to be found here, too. While quads obviously do not perfectly represent buildings, a resolution of 50 meters ensures that a building is likely to take up a subtree of depth 1-2 at the most. The implicit ordering follows upwards: A few of these subtrees form a series of blocks, these blocks form an area, and so on and so forth. While this is more a reflection of the choice of 50 meters than anything else, the arrangement is still noteworthy. It also, being a relatively small number, ensures that a quad will not have too many stores in it.
 
@@ -327,6 +327,13 @@ You can find our repository at \url{https://github.com/ThePyProgrammer/SnackNow}
 
 \subsection{Repo Report}
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/commit_graph.PNG}
+    \caption{Our Commit Graph}
+    \label{fig:commit_graph}
+\end{figure}
+
 \section{Reflection}
 
 \subsection{Vishal}
@@ -369,8 +376,6 @@ Still, I learned a lot in the overall process. Not so much about the technical a
 
 
 \section{References}
-
-R. K. V. Kothuri, S. Ravada, D. Abugov, "Quadtree and R-tree Indexes in Oracle Spatial: A Comparison using GIS Data"
 
 \printbibliography[
 heading=none
