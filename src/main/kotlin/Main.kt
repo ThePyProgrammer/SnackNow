@@ -94,8 +94,10 @@ fun app() {
                     Row(Modifier.padding(10.dp).align(Alignment.End)) {
                         Button(
                             onClick = {
-                                results.clear()
-                                results.addAll(search(text))
+                                if(userLocation != null && priority.value in arrayOf("High", "Medium", "Low")) {
+                                    results.clear()
+                                    results.addAll(search(text, userLocation!!, queries.value, priority.value))
+                                }
                             }
                         ) { Text("SEARCH") }
                     }
