@@ -1,13 +1,11 @@
 package util
 
-import data.hawkerCentres
-import data.sevenElevens
-import data.supermarkets
+import data.*
+import data.Place
 import me.xdrop.fuzzywuzzy.FuzzySearch
 import model.algorithm.Item
 import model.algorithm.QuadTree
 import model.algorithm.SuperStore
-import model.base.Location
 import model.base.Point
 import model.base.Result
 import java.io.IOException
@@ -24,19 +22,18 @@ private val SINGAPORE_RECTANGLE = listOf(
     104.167488, // right
     1.498674, // top
 )
-private const val SEARCH_THRESHOLD = 75 // percent
+private const val SEARCH_THRESHOLD = 60 // percent
 private val tree: QuadTree<SuperStore, Item> = QuadTree(
     Point(SINGAPORE_RECTANGLE[0], SINGAPORE_RECTANGLE[3]),
     Point(SINGAPORE_RECTANGLE[2], SINGAPORE_RECTANGLE[1])
 )
-private val locations = ArrayList<Location>()
-private var firstSearch = true
+private val places = ArrayList<Place>()
 
-fun getData() {
+private fun getData() {
     try {
-        locations.addAll(hawkerCentres())
-        locations.addAll(supermarkets())
-        locations.addAll(sevenElevens())
+        places.addAll(hawkerCentres())
+        places.addAll(supermarkets())
+        places.addAll(sevenElevens())
     } catch (e: IOException) {
         throw RuntimeException(e)
     }
@@ -45,30 +42,32 @@ fun getData() {
 fun initialize() {
 
     getData()
-    for (loc: Location in locations) {
+    initFakeData(places)
+    initPostalCodeThingy()
+    for (place: Place in places) {
         val superstore = SuperStore()
-        val point = Point(loc.lng, loc.lat) // x, y
-        superstore.addItem(Item("default item", loc.name, point, 1.23))
-        tree.insert(superstore, point)
+        superstore.addItems(place.items)
+        tree.insert(superstore, place.point)
     }
 
 }
 
 fun itemToResult(item: Item): Result {
-    return Result(item.itemName, item.price, item.address)
+    return Result(item.itemName, item.price, item.address, item)
 }
 
+// main search function
 fun search(value: String): ArrayList<Result> {
-    if (firstSearch) {
-        initialize()
-        firstSearch = false
-    }
+    val queryItems = tree.rangeQuery(
+        Point(SINGAPORE_RECTANGLE[0], SINGAPORE_RECTANGLE[3]),
+        Point(SINGAPORE_RECTANGLE[2], SINGAPORE_RECTANGLE[1])
+    )
     val result = ArrayList<Result>()
-    val strings = listOf("random", "hello", "test", "item", "default", "wow", "search", "key", "a very long string, hopefully this matches stuff", "")
-    for (s in strings) {
-        val searchRatio = FuzzySearch.partialRatio(value, s)
+    // val strings = listOf("random", "hello", "test", "item", "default", "wow", "search", "key", "a very long string, hopefully this matches stuff", "")
+    for (item in queryItems) {
+        val searchRatio = FuzzySearch.partialRatio(value, item.itemName)
         if (searchRatio > SEARCH_THRESHOLD) {
-            result.add(itemToResult(Item(s, "some random address", Point(0.0, 0.0), 0.00)))
+            result.add(itemToResult(item))
         }
     }
     return result

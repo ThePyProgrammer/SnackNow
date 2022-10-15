@@ -93,7 +93,7 @@
 
 \section{Background}
 
-Lower income families are plagued by food expenses nowadays, with it making up a significant proportion of their monthly expenditures. Frequently, one's choice of grocery-outlet is largely determined by convenience, e.g. going to the nearest \textit{7-Eleven}. On the other hand, walking a bit further to the closest \textit{FairPrice} is also a valid option, as compared to other nearby sources that tend to mark up their products. But what if such families enter a neighbourhood they are unfamiliar with? How can they be sure that they can get meals for affordable prices? In this report, we design a platform to present and compare such options in a relatively concise interfaces, that allows selection based on \textbf{both price and distance}. This selection is done via the use of Spatial R-Trees and QuadTrees. Of course, this is not limited to food; this platform can be extended to work with any type of commodity. In this way, users can make more informed decisions regarding their expenditures.
+Lower income families are plagued by food expenses nowadays, with it making up a significant proportion of their monthly expenditures. Frequently, one's choice of grocery-outlet is largely determined by convenience, e.g. going to the nearest \textit{7-Eleven}. On the other hand, walking a bit further to the closest \textit{FairPrice} is also a valid option, as compared to other nearby sources that tend to mark up their products. But what if such families enter a neighbourhood they are unfamiliar with? How can they be sure that they can get meals for affordable prices? In this report, we design a platform to present and compare such options in a relatively concise interface, that allows selection based on \textbf{both price and distance}. This selection is done via the use of Spatial R-Trees and QuadTrees. Of course, this is not limited to food; this platform can be extended to work with any type of commodity. In this way, users can make more informed decisions regarding their expenditures.
     
    
 \section{User Documentation}
@@ -135,7 +135,7 @@ Quad-Trees are commonly used in analysing the distribution of a collection in 2D
 
 So, given the above issues, why did we choose Quad-Trees? Quad-Trees address this by adopting a recursive subdivision approach to grid-propagation. That is, a quadrant is subdivided only during when there is a child node to be inserted into the quadrant. The depth of the tree is thus proportional to the log of the local density of points, which results in many speedups. Empty areas have very low depth, and dense areas have fewer "collisions".
 
-This is particularly relevant in our case, because stores selling goods are very much not uniformly distributed throughout space. Many parts of Singapore, such as housing areas, will obviously have a relatively lower density of food-sellers than a large shopping mall. There is a hierarchy to be found here, too. While Quads obviously do not perfectly represent buildings, a resolution of 50 meters ensures that a building is likely to take up a subtree of depth 1-2 at the most. The implicit ordering follows upwards: A few of these subtrees form a series of blocks, these blocks form an area, and so on and so forth. While this is more a reflection of the choice of 50 meters than anything else, the arrangement is still noteworthy. It also, being a relatively small number, ensures that a Quad will not have too many stores in it.
+This is particularly relevant in our case, because stores selling goods are very much not uniformly distributed throughout space. Many parts of Singapore, such as housing areas, will obviously have a relatively lower density of food-sellers than a large shopping mall. There is a hierarchy to be found here, too. While Quads obviously do not perfectly represent buildings, a resolution of 50 meters ensures that a building is likely to take up a subtree of depth 1-2 at the most. The implicit ordering follows upwards: A few of these subtrees form a series of blocks, these blocks form an area, and so on and so forth. While this is more a reflection of the choice of 50 meters than anything else, the arrangement is still noteworthy. It also, being a relatively small number, ensures that a quad will not have too many stores in it.
 
 \subsubsection{Algorithm}
 
@@ -153,15 +153,16 @@ The process for doing window queries is rather intuitive. We start at the root, 
 
 \paragraph{Insertion:} 
 
-The worst-case time complexity of the insertion operation for Quad-Trees is O(n).
+The worst-case time complexity of the insertion operation for Quad-Trees is O(n), where n is the size of the element to be inserted.
 
-First, let us observe that no matter the structure of the tree, at most a finite number of recursive calls will be made to propagate down it. Due to the minimum size of the lowermost QuadNode, once we reach a depth of around 10 (because Singapore is roughly 50km across), we will hit the minimum size. However, since this is a finite distance, this only contributes a constant term to the asymptotic time complexity of the algorithm. Indeed, 10 is low enough that we can call it constant without feeling bad about it. More relevant here is the merge operation.
+First, let us observe that no matter the structure of the tree, at most a finite number of recursive calls will be made to propagate down it. Due to the minimum size of the lowermost QuadNode, once we reach a recursion depth of around 10 (because Singapore is roughly 50km across), we will hit the minimum size. However, since this is a finite distance, this only contributes a constant term to the asymptotic time complexity of the algorithm. Indeed, 10 is low enough that we can call it constant without feeling bad about it. More relevant here is the merge operation.
 
 Because we merge the the two catalogues together, we invariably invoke java's System.arrayCopy method. In researching the time complexity of this method, I have come to the conclusion that the only explanation here is "It's complicated". Given this, we will make the safe assumption that it is still O(n), where n is the number of elements to be moved from one array to another. \newline
 The time taken to run \texttt{System.arraycopy} is then roughly of the form:
-$$T(n) = an + 10b + c$$
-Where a is the constant factor hidden behind O(n), b is the time taken to run one recursive call, and c is whatever other overhead we have. If we accept this, then the asymptotic worst-case time complexity of insertion is:
-$$O(n)$$
+$$T_i(n) = an + 10b + c$$
+Where a is the constant factor hidden behind O(n), b is the time taken to run one recursive call, and c is whatever other overhead we have. Since this only needs to be run once per insertion, and does not matter on the current state of the tree, merely the element being inserted, then the asymptotic worst-case time complexity of insertion is:
+$$O(T_i(n)) = O(an + 10b + c) = O(n)$$
+
 
 
 \paragraph{Range Query:} 
@@ -182,7 +183,8 @@ a_d & = 4a_{d-1}\\
 
 As for the time complexity of outputting all the items, although the number of elements contained in each node varies, since there are at most $n$ items, the time complexity is only $O(n)$.
 
-Thus, the asymptotic worst-case time complexity is $O(n + 4n + 4^{10}) = O(n)$.
+
+Thus, the asymptotic worst-case time complexity is $O(n + 4n + 4^{10})$, equivalent to $O(n)$
 
 \paragraph{Why use Quad-Trees}
 
@@ -270,6 +272,10 @@ In my humble opinion, with the help of this project, I have been able to underst
 
 \subsection{Vikram}
 
+As the one who was responsible for the actual implementation of the Quad-Tree, I have learned a lot about the virtues and horrors of abstraction. The upside: It makes the code a lot neater to write, a lot easier to read, and is generally just elegant. The downside: It makes debugging code paradoxically more difficult, because when things are more elegant, and they don't work, trying to figure out what part of the elegance is breaking is very difficult. One particularly memorable aspect of debugging process (for me), was when I spent two days, on and off, trying to track down a bug present in my Queries. In the end, it turned out to not be in my queries, but in my insertions; my code was correct, I could swear it, and I was right. It was someone else's code which had broken, and abstraction had hidden it from my attention.
+
+Still, I learned a lot in the overall process. Not so much about the technical aspects of the programming, but in the process of researching which trees to use, I did hit upon somewhat of a realisation regarding data structure development. The distinction between implicit properties of data and explicit choices in organisation is not one that I had thought about much before this assignment, but now I understand more.
+
 \section{Work Distribution Matrix}
 
 \begin{center}
@@ -281,17 +287,20 @@ In my humble opinion, with the help of this project, I have been able to underst
     R-Tree Implementation &  & \checkmark &  &  \\
     Quad-Tree Implementation &  &  &  & \checkmark \\
     Data Collection &  &  & \checkmark &  \\
-    User Interface  & \checkmark & \checkmark &  &  \\
+    User Interface  & \checkmark & \checkmark & \checkmark &  \\
     Report  & \checkmark & \checkmark  &  & \checkmark  \\
     \hline
 \end{tabular}
 \end{center}
+\small{*The R-Tree was cut in the end, but still worked on by Prannaya}
 
 
 \newpage
 
 
 \section{References}
+
+R. K. V. Kothuri, S. Ravada, D. Abugov, "Quadtree and R-tree Indexes in Oracle Spatial: A Comparison using GIS Data"
 
 \printbibliography[
 heading=none
