@@ -68,10 +68,8 @@ fun test(test: Testcase) {
 fun main() {
     val rootpath = "src/test/kotlin/model/algorithm/quadtree/testdata"
     println("========= SAMPLE TEST CASE =========")
-    println("========= TEST GENERIC CASE =========")
+    println("========= TEST SIMPLE CASE =========")
     test(readCSV("${rootpath}/simple.csv"))
     println("========= TEST LARGE CASE =========")
     test(readCSV("${rootpath}/grid.csv"))
-
-
 }
