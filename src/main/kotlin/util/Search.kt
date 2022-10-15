@@ -8,7 +8,9 @@ import model.algorithm.QuadTree
 import model.algorithm.SuperStore
 import model.base.Point
 import model.base.Result
+import userLocation
 import java.io.IOException
+import java.util.Collections
 
 private val SINGAPORE_RECTANGLE_ALL_WRONG = listOf(
     103.6920359, // left
@@ -58,17 +60,24 @@ fun itemToResult(item: Item): Result {
 
 // main search function
 fun search(value: String): ArrayList<Result> {
+    if (userLocation == null) return ArrayList()
+    val x = userLocation!!.lng
+    val y = userLocation!!.lat
     val queryItems = tree.rangeQuery(
         Point(SINGAPORE_RECTANGLE[0], SINGAPORE_RECTANGLE[3]),
         Point(SINGAPORE_RECTANGLE[2], SINGAPORE_RECTANGLE[1])
     )
     val result = ArrayList<Result>()
+    val resultTemp = ArrayList<Pair<Int, Result>>()
     // val strings = listOf("random", "hello", "test", "item", "default", "wow", "search", "key", "a very long string, hopefully this matches stuff", "")
     for (item in queryItems) {
         val searchRatio = FuzzySearch.partialRatio(value, item.itemName)
         if (searchRatio > SEARCH_THRESHOLD) {
-            result.add(itemToResult(item))
+            resultTemp.add(Pair(searchRatio, itemToResult(item)))
         }
+    }
+    for (pair in resultTemp.sortedWith(compareBy({ it.first }, { it.second.price }, { it.second.name }))) {
+        result.add(pair.second)
     }
     return result
 }
