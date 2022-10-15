@@ -113,6 +113,8 @@ fun insertFakeData(place: Place, dataList: MutableList<FakeDataItem>) {
 
 fun initFakeData(places: ArrayList<Place>) {
 
+    FAKE_SUPERMARKET.addAll(getPrices())
+
     for (place: Place in places) {
         when (place.type) {
             PlaceType.SEVEN_ELEVEN -> {
