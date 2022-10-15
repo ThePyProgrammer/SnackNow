@@ -100,11 +100,13 @@ Lower income families are plagued by food expenses nowadays, with it making up a
 You are to provide a brief user documentation with \textbf{screenshots} on how to use the
 program and its functionalities.
 
+Below is an image of the planned wireframes, which we have largely adapted into the actual application
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{img/pa2Layout.png}
-    \caption{Caption}
-    \label{fig:my_label}
+    \includegraphics[width=0.9\textwidth]{img/wireframe.png}
+    \caption{Wireframes initially used to design the User Interface}
+    \label{fig:wireframes}
 \end{figure}
 
 \section{Analysis and Explanation of Implemented Tree Methods}
@@ -155,40 +157,79 @@ The time taken to run System.arrayCopy is then roughly of the form:
 $$T(n) = an + 10b + c$$
 Where a is the constant factor hidden behind O(n), b is the time taken to run one recursive call, and c is whatever other overhead we have. If we accept this, then the asymptotic worst-case time complexity of insertion is:
 $$O(n)$$
-// Insert rigorous analysis of range queries here
-
-%\subsection{Spatial R-Trees}
-
-%\begin{figure}
-    %\centering
-    %\includegraphics[scale=0.3]{../img/RTree.png}
-    %\caption{R-Tree visualization}
-    %\label{fig:my_label}
-%\end{figure}
-
-%Another approach to storing points in space, especially for our purposes of nearest neighbour queries, is to group points together, according to their closeness, and then recursively group those groups together. 
-
-%\subsubsection{Algorithm}
 
 
+\paragraph{Range Query:} 
+The worst-case time complexity of the range query operation for Quad-Trees is O(n).
 
-%\subsection{R-Trees vs. Quad-Trees}
+At each recursion step, we must iterate over each of the four child nodes of the current node and add the number of elements $n_k$ inside the node to the shared arraylist. Since by greedy arguments, the worst case must when we query the entire search space, the worst-case time complexity of a range query is equivalent to the worst-case time complexity of traversing the entire tree and outputting all the items contained within it. 
 
+The former has a worst case time complexity of $T(n) = \max(4n, 4^{10}) + O(1)$. This is because at each insertion step, the tree will subdivide into four child nodes at most once, increasing the number of vertices and edges by 4. However, since we have artificially limited the depth of the tree by imposing real-world constraints, the time complexity of traversal is upper bounded by $4^{10}$, that is the branching factor raised to the power of the max depth. This is due to the fact that the number of vertices can be expressed as a recurrence relation:
 
-% Hypothesis
-% Why we think one would work better
+\begin{align*}
+a_0 & = 1 \\
+a_d & = 4a_{d-1}\\
+    & = 4(4a_{d-2}) \\
+    & \ldots \\
+    & = 4^da_0 \\
+    & = 4^d \\
+\end{align*}
+
+As for the time complexity of outputting all the items, although the number of elements contained in each node varies, since there are at most $n$ items, the time complexity is only $O(n)$.
+
+Thus, the asymptotic worst-case time complexity is $O(n + 4n + 4^{10})$.
+
+\paragraph{Why use Quad-Trees}
+
+From our discussion of the worst-case analysis of the time complexities of Quad-Trees, we may notice that it is no better than a simple array. This highlights a shortfall of asymptotic worst-analysis, that is for certain use-cases where we are working with non-adversarial data with real-world constraints on the size, it is worth exploring algorithms focus on improving the time-complexity of the average-case. For instance, we may expect that stores would not all be concentrated in one quadrant, which would result in a severely unbalanced quad-tree, nor would the intended clientele be interested in finding stores beyond walking distance. In these cases, we can expect the quad tree to be roughly balanced, and be faster than an array by efficiently skipping nodes which are not interesting in, just as a binary search tree has $\log(n)$ search and insert on average.
 
 
 \section{Testing Strategy}
-You are to provide at least \textbf{3 test cases} you used to test the correctness and
-robustness of your program. Log down the sample input and output for each test case.
-Briefly explain why each test case was chosen.
+
+Logs of the sample input and output can be found at ....
+
+
+\subsection{Grid.csv}
+
+To stress-test our algorithm on a generic case, we generated a 20x20 grid of evenly spaced points and randomized queries. 
+
+This test cases tests queries that are very thin and do not enclose any points, queries which barely enclose points, queries which barely graze points, large queries, and queries close to the boundary.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.8]{../img/grid.png}
+    \caption{Grid.csv}
+    \label{fig:my_label}
+\end{figure}
+
+
+\subsection{Edges.csv}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.8]{../img/edges.png}
+    \caption{Edges.csv - Bounding box overlaps exactly with the brown query 1 window.}
+    \label{fig:my_label}
+\end{figure}
+
+The program should throw an error when trying to insert points outside the bounding box.
+
+
+\subsection{Single.csv}
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.8]{../img/single.png}
+    \caption{single.csv}
+    \label{fig:my_label}
+\end{figure}
+
+We verify that the quadtree works even when it does not need to subdivide.
 
 
 
-\section{Results}
 
-% Which data structure did better
+
+
 
 \newpage
 \section{GitHub Information}
