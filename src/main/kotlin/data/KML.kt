@@ -13,13 +13,14 @@ import javax.xml.stream.events.XMLEvent
 
 
 // returns a list of locations
-fun parseKML(filename: String): ArrayList<Location> {
+fun parseKML(filename: String): ArrayList<Place> {
 
     val whyDoesJavaHaveSoManyFactories: XMLInputFactory = XMLInputFactory.newInstance()
-    val locations = ArrayList<Location>()
+    val places = ArrayList<Place>()
     var latitude = 0.0
     var longitude = 0.0
     var address = ""
+    var type: PlaceType = PlaceType.NONE
     try {
         val fis = FileInputStream(filename)
         val reader: XMLEventReader = whyDoesJavaHaveSoManyFactories.createXMLEventReader(fis)
@@ -48,11 +49,13 @@ fun parseKML(filename: String): ArrayList<Location> {
                                 "ADDRESS_MYENV" -> {
                                     nextEvent = reader.nextEvent()
                                     address = nextEvent.asCharacters().data
+                                    type = PlaceType.HAWKER_CENTRE
                                 }
                                 // supermarkets.kml
                                 "BLK_HOUSE" -> {
                                     nextEvent = reader.nextEvent()
                                     address = nextEvent.asCharacters().data
+                                    type = PlaceType.SUPERMARKET
                                 }
                                 "STR_NAME" -> {
                                     nextEvent = reader.nextEvent()
@@ -76,8 +79,8 @@ fun parseKML(filename: String): ArrayList<Location> {
                 when (endElement.name.localPart) {
                     "Placemark" -> {
                         // end of one location
-                        val location = Location(address, latitude, longitude, getURL(latitude, longitude))
-                        locations.add(location)
+                        val place = Place(address, latitude, longitude, type)
+                        places.add(place)
                     }
                     "kml" -> {
                         // end of everything
@@ -92,14 +95,14 @@ fun parseKML(filename: String): ArrayList<Location> {
         e.printStackTrace()
     }
 
-    return locations
+    return places
 
 }
 
-fun hawkerCentres(): ArrayList<Location> {
+fun hawkerCentres(): ArrayList<Place> {
     return parseKML("data/hawker-centres.kml")
 }
 
-fun supermarkets(): ArrayList<Location> {
+fun supermarkets(): ArrayList<Place> {
     return parseKML("data/supermarkets.kml")
 }

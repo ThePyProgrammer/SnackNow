@@ -5,29 +5,29 @@ import java.io.IOException
 
 fun main() {
 
-    val allData = ArrayList<Location>()
+    val allData = ArrayList<Place>()
 
-    val someData: ArrayList<Location> = parseKML("data/hawker-centres.kml")
-    for (location in someData) {
-        allData.add(location)
+    val someData: ArrayList<Place> = parseKML("data/hawker-centres.kml")
+    for (place in someData) {
+        allData.add(place)
     }
 
-    val someData2: ArrayList<Location> = parseKML("data/supermarkets.kml")
-    for (location in someData2) {
-        allData.add(location)
+    val someData2: ArrayList<Place> = parseKML("data/supermarkets.kml")
+    for (place in someData2) {
+        allData.add(place)
     }
 
     try {
-        val someMoreData: ArrayList<Location> = sevenElevens()
-        for (location in someMoreData) {
-            allData.add(location)
+        val someMoreData: ArrayList<Place> = sevenElevens()
+        for (place in someMoreData) {
+            allData.add(place)
         }
     } catch (e: IOException) {
         throw RuntimeException(e)
     }
 
-    for (location in allData) {
-        println(location.toString())
+    for (place in allData) {
+        println(place.toString())
     }
 
     println("Total number of locations: %d".format(allData.size))

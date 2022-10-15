@@ -8,8 +8,8 @@ import java.net.URL
 import java.util.regex.Pattern
 
 @Throws(IOException::class)
-fun sevenElevens(): ArrayList<Location> {
-    val result = ArrayList<Location>()
+fun sevenElevens(): ArrayList<Place> {
+    val result = ArrayList<Place>()
     val pattern =
         Pattern.compile("showlocation\\(\"([\\w#.,'/@() \\-]+)\", \"([\\w#.,'/@() \\-]+)\", ([\\d.]+), ([\\d.]+)\\);")
 
@@ -27,8 +27,8 @@ fun sevenElevens(): ArrayList<Location> {
                         continue
                     }
                     val longitude = matcher.group(4).toDouble()
-                    val location = Location(matcher.group(1), latitude, longitude, getURL(latitude, longitude))
-                    result.add(location)
+                    val place = Place(matcher.group(1), latitude, longitude, PlaceType.SEVEN_ELEVEN)
+                    result.add(place)
                 } // else?
                 line = br.readLine()
             }
