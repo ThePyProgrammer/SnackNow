@@ -9,6 +9,7 @@ import model.algorithm.SuperStore
 import model.base.Location
 import model.base.Point
 import model.base.Result
+import userLocation
 import java.io.IOException
 import kotlin.math.cos
 
@@ -42,6 +43,7 @@ private fun getData() {
 }
 
 fun initialize() {
+
     getData()
     initFakeData(places)
     initPostalCodeThingy()

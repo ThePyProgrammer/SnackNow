@@ -116,6 +116,8 @@ The app is a desktop app that can be run as an EXE or a JAR. The idea is to add 
     \item The price of the item
 \end{itemize}
 
+In order to indicate your location, you have to put in your postal code (due to the current permission-related limitations of Jetpack Compose). The app then queries a database to identify your latitude and longitude for querying.
+
 \section{Analysis and Explanation of Implemented Tree Methods}
 
 \textit{Provide a brief explanation, in your own words, and rigorous mathematical worst-case analysis derivation and time complexity of the key methods of your tree structure (retrieval, insertion, deletion, balance (if any))}
@@ -221,6 +223,9 @@ This test cases tests queries that are very thin and do not enclose any points, 
 
 The program should throw an error when trying to insert points outside the bounding box.
 
+\begin{verbatim}
+    Exception in thread "main" java.lang.IndexOutOfBoundsException: Point outside of bounding box of QuadTree!
+\end{verbatim}
 
 \subsection{\texttt{single.csv}}
 \begin{figure}
@@ -232,9 +237,10 @@ The program should throw an error when trying to insert points outside the bound
 
 We verify that the QuadTree works even when it does not need to subdivide.
 
-
-
-
+\begin{verbatim}
+    1) Queried (-0.01000, 0.01000) to (0.01000, -0.01000) and received 1 result(s):
+[(0.00000, 0.00000)]
+\end{verbatim}
 
 
 
@@ -269,6 +275,8 @@ By helping out a here and there in each component of the project, and reviewing 
 In my humble opinion, with the help of this project, I have been able to understand the structures and methods associated with trees a lot better, compared to when I simply attempted Task I on its own. Getting to create a user interface to adapt trees showed me how such data structures can be used adaptively for different problems which I never thought of, and has broadened my perspective on using Data Structures like Queues and Stacks beyond IO-like problems. In general, it's been fun to see the apps come together, and I am happy to see that it works (somewhat).
 
 \subsection{Yu Pin}
+
+Doing this project made me understand how trees that don't exist in real life are used in real life, and made me have the experience of creating an application that is actually useful. While doing the data collection, I found out how hard it is to get some Singapore-specific data, especially the fact that there was no way to get the locations of all the convenience stores in Singapore. Therefore, I even had to generate some fake data, and the process of doing that was enjoyable. The project is coded in both Java and Kotlin, and I realised how easy it is to use both languages in one project. While working on the application, after the user interface was done, I used the data I had collected and the data structure that Vikram implemented to make it work, and it was interesting to see all the data and the quadtree come together to make the application useful and efficient.
 
 \subsection{Vikram}
 

@@ -28,7 +28,7 @@ var userLocation: Location? = null
 
 @Composable
 @Preview
-fun App() {
+fun app() {
     var text by remember { mutableStateOf("") }
     var postalCode by remember { mutableStateOf("") }
     var address by remember { mutableStateOf("Enter a postal code!") }
@@ -139,6 +139,6 @@ fun main() = application {
         icon = painterResource("snack_now_icon.png"), //rememberVectorPainter(windowIcon.value),
         onCloseRequest = ::exitApplication
     ) {
-        App()
+        app()
     }
 }
