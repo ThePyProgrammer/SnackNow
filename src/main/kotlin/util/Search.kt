@@ -1,7 +1,6 @@
 package util
 
 import data.*
-import data.Place
 import me.xdrop.fuzzywuzzy.FuzzySearch
 import model.algorithm.Item
 import model.algorithm.QuadTree
@@ -57,8 +56,8 @@ fun itemToResult(item: Item): Result {
 }
 
 fun bound(x: Double, min: Double, max: Double) =
-    if(x < min) min
-    else if(x > max) max
+    if (x < min) min
+    else if (x > max) max
     else x
 
 fun km2latlng(x: Double, y: Double): Array<Double> {
@@ -115,4 +114,5 @@ fun search(searchValue: String, userLocation: Location, numQueries: Int, distanc
     }
 
     return FINAL_ARRAY
+
 }

@@ -3,7 +3,9 @@ package model.algorithm.rtree
 import model.base.Point
 import util.*
 import java.util.*
-import kotlin.math.*
+import kotlin.math.abs
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 
 class RTree<T>(
@@ -12,7 +14,7 @@ class RTree<T>(
 ) {
     enum class SeedPicker { LINEAR, QUADRATIC }
 
-    final val FUDGE_FACTOR = 1.001f
+    val FUDGE_FACTOR = 1.001f
 
     @Volatile
     var size = 0
@@ -256,7 +258,7 @@ class RTree<T>(
     fun clear() { root = buildRoot(true) }
 
     fun condenseTree(n: SpatialNode) {
-        var node = n;
+        var node = n
         val q = HashSet<SpatialNode>()
         while(node != root) {
             if(node.leaf && (node.children.size < minEntries)) {

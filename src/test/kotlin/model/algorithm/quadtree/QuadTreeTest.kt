@@ -5,7 +5,7 @@ import model.algorithm.QuadTree
 import model.algorithm.SuperStore
 import model.base.Point
 import java.io.File
-import java.util.Random;
+import java.util.*
 
 
 class Testcase(val bounds: List<Point>, val inserts: List<Point>, val queries: List<List<Point>>)
@@ -35,7 +35,7 @@ fun test(test: Testcase) {
           }, insert)
     }
 
-    var count = 1;
+    var count = 1
     test.queries.forEach { query ->
         val result = tree.rangeQuery(query[0], query[1]).map { Point(it.x,it.y) }.sortedWith(compareBy({it.x},{it.y}))
         println("${count++}) Queried ${query[0].toString()} to ${query[1].toString()} and received ${result.size} result(s):")

@@ -4,10 +4,6 @@ import model.algorithm.Item
 import kotlin.math.round
 import kotlin.random.Random
 
-// list structure: [
-//     ["name", price, include chance, fake price variation between places (optional, default is 10% of price), smallest interval of variation (optional, default 10)]
-// ]
-
 private const val SEED = 1234567890
 private val random = Random(SEED)
 
@@ -95,7 +91,7 @@ private val FAKE_HAWKER_CENTRE = mutableListOf(
     FakeDataItem("☕ of ⓣ", 110.00, 0.05, 10.00, 10.00),
 
     FakeDataItem("Chicken and Rice", 3.25, 0.75, 0.50, 0.05),
-
+    FakeDataItem("中国食物", 3.25, 0.05, 0.00),
 
 )
 

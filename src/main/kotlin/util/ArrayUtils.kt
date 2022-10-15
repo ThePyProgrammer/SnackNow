@@ -1,6 +1,5 @@
 package util
 
-import model.algorithm.rtree.SpatialNode
 import java.lang.Double.max
 import java.lang.Double.min
 

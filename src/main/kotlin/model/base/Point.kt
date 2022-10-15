@@ -1,8 +1,6 @@
 package model.base
 
-import model.algorithm.rtree.Argument
-
-open class Point(public var x: Double = 0.0, public var y: Double = 0.0) {
+open class Point(var x: Double = 0.0, var y: Double = 0.0) {
     constructor(p: Point) : this(p.x, p.y)
     constructor(arr: Array<Double>) : this(arr[0], arr[1])
     fun isEqualTo(p: Point) = x == p.x && y == p.y

@@ -1,6 +1,5 @@
 package data
 
-import model.base.Location
 import java.io.FileInputStream
 import java.io.FileNotFoundException
 import javax.xml.namespace.QName
@@ -10,7 +9,6 @@ import javax.xml.stream.events.Attribute
 import javax.xml.stream.events.EndElement
 import javax.xml.stream.events.StartElement
 import javax.xml.stream.events.XMLEvent
-
 
 // returns a list of locations
 fun parseKML(filename: String): ArrayList<Place> {

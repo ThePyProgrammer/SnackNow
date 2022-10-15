@@ -321,3 +321,8 @@ showlocation("Blk.532 Ang Mo Kio Avenue 10 #01-2455", "Blk.532 Ang Mo Kio Avenue
 showlocation("Blk 416 Ang Mo Kio Avenue 10 #01-991", "Blk 416 Ang Mo Kio Avenue 10 #01-991", 1.36454170890842, 103.855103690549);
 showlocation("Blk 574 Ang Mo Kio Avenue 10 #01-1847", "Blk 574 Ang Mo Kio Avenue 10 #01-1847", 1.371097, 103.8563);
 showlocation("2 Ang Mo Kio Drive, ITE College Central #A1-08", "2 Ang Mo Kio Drive, ITE College Central #A1-08 2 Ang Mo Kio Drive, ITE College Central #A1-08", 1.377509461, 103.8564135);
+showlocation("No.151 New Bridge Road #01-01 Chinatown MRT Station", "No.151 New Bridge Road #01-01 Chinatown MRT Station", 1.2843595780039, 103.843426775693);
+showlocation("181 New Bridge Road #01-03 Hotel 81 Chinatown", "181 New Bridge Road #01-03 Hotel 81 Chinatown", 1.28456170242111, 103.844104087929);
+showlocation("New Bridge Road, #01-38 Chinatown Point", "New Bridge Road, #01-38 Chinatown Point 133", 1.285185161, 103.8449429);
+showlocation("18 Cross Street, #01-101 China Square Central", "18 Cross Street, #01-101 China Square Central", 1.283504305, 103.8469386);
+showlocation("No.3 Pickering Street #01-24/25 China Square Central", "No.3 Pickering Street #01-24/25 China Square Central", 1.28428813159339, 103.847429981846);
