@@ -128,11 +128,30 @@ In order to indicate your location, you have to put in your postal code (due to 
 
 This app has some limitations though. For one, only a small area was actually queried as the locations of the 7-Elevens (which we used as our underlying database) were only limited to a specific region of Singapore, as shown below:
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/711locations.jpg}
+    \caption{The search limitation on Google Maps lead to only a certain set of readings, mainly barring the eastside of Singapore}
+    \label{fig:711locations}
+\end{figure}
 
 This leads to the following screen being rendered, which obviously isn't correct:
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/pa2limitations.png}
+    \caption{The limited set causes no results in Simei, an eastern estate in Singapore}
+    \label{fig:pa2limitations}
+\end{figure}
 
-On the another thing implemented to ensure user understand what is going on is a dummy list generated on start-up.
+On the other hand, another thing implemented to ensure user understand what is going on is a dummy list generated on start-up.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/pa2appStartup.png}
+    \caption{We swear, this is a \textit{feature}, not a \textit{bug}!}
+    \label{fig:pa2limitations}
+\end{figure}
 
 
 
@@ -218,12 +237,12 @@ Logs of the sample input and output can be found at \url{https://github.com/TheP
 
 To stress-test our algorithm, we generated a 20x20 grid of evenly spaced points and randomized queries. This dataset should resemble real world data in density and distribution.
 
-This test cases tests queries that are very thin and do not enclose any points, queries which barely enclose points, queries which barely graze points, large queries, and queries close to the boundary. As expected, we may verify that the algorithm is robust in handling large instances, does not suffer from numerical errors in picking out stores close to a boundary, and works consistently. This should cover most typical cases.
+This test cases tests queries that are very thin and do not enclose any points (8,10), queries which barely enclose points (2,4,6,7,9), queries which barely graze points (6 (notice the third point falls just outside the bounding box)), large queries (4,7), and queries close to the boundary (3). As expected, we may verify that the algorithm is robust in handling large instances, does not suffer from numerical errors in picking out stores close to a boundary, and works consistently. This should cover most typical cases.
 
 \begin{figure}
     \centering
     \includegraphics[scale=0.8]{../img/grid.png}
-    \caption{\texttt{grid.csv}}
+    \caption{Visualization of the sample input of \texttt{grid.csv}}
     \label{fig:my_label}
 \end{figure}
 
@@ -273,7 +292,7 @@ Point outside of bounding box of QuadTree!
 \begin{figure}
     \centering
     \includegraphics[scale=0.8]{../img/single.png}
-    \caption{\texttt{single.csv}}
+    \caption{Sample data visualization from \texttt{single.csv}}
     \label{fig:my_label}
 \end{figure}
 
