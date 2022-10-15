@@ -24,6 +24,7 @@ private val SINGAPORE_RECTANGLE = listOf(
     104.167488, // right
     1.498674, // top
 )
+private const val SEARCH_THRESHOLD = 75 // percent
 private val tree: QuadTree<SuperStore, Item> = QuadTree(
     Point(SINGAPORE_RECTANGLE[0], SINGAPORE_RECTANGLE[3]),
     Point(SINGAPORE_RECTANGLE[2], SINGAPORE_RECTANGLE[1])
@@ -65,7 +66,8 @@ fun search(value: String): ArrayList<Result> {
     val result = ArrayList<Result>()
     val strings = listOf("random", "hello", "test", "item", "default", "wow", "search", "key", "a very long string, hopefully this matches stuff", "")
     for (s in strings) {
-        if (FuzzySearch.ratio(value, s) > 75) {
+        val searchRatio = FuzzySearch.partialRatio(value, s)
+        if (searchRatio > SEARCH_THRESHOLD) {
             result.add(itemToResult(Item(s, "some random address", Point(0.0, 0.0), 0.00)))
         }
     }
