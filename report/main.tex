@@ -97,10 +97,9 @@ Lower income families are plagued by food expenses nowadays, with it making up a
     
    
 \section{User Documentation}
-You are to provide a brief user documentation with \textbf{screenshots} on how to use the
-program and its functionalities.
+\textit{You are to provide a brief user documentation with \textbf{screenshots} on how to use the program and its functionalities.}
 
-Below is an image of the planned wireframes, which we have largely adapted into the actual application
+Below is an image of the planned wireframes, which we have largely adapted into the actual application.
 
 \begin{figure}[H]
     \centering
@@ -109,11 +108,17 @@ Below is an image of the planned wireframes, which we have largely adapted into 
     \label{fig:wireframes}
 \end{figure}
 
+The app is a desktop app that can be run as an EXE or a JAR. The idea is to add a specific item that you wish to buy to the first textbox, then indicate how much you prioritize the distance, and also scroll up and down for the number of results. Upon pressing search, the app queries the areas based on the distance setting and produces results in the form of cards. This card contains the following:
+\begin{itemize}
+    \item Name of Product at the relevant store
+    \item The Address of the relevant store
+    \item And image of the location of the store
+    \item The price of the item
+\end{itemize}
+
 \section{Analysis and Explanation of Implemented Tree Methods}
 
-Provide a brief explanation, in your own words, and rigorous mathematical worst-case
-analysis derivation and time complexity of the key methods of your tree structure
-(retrieval, insertion, deletion, balance (if any))
+\textit{Provide a brief explanation, in your own words, and rigorous mathematical worst-case analysis derivation and time complexity of the key methods of your tree structure (retrieval, insertion, deletion, balance (if any))}
 
 
 
@@ -136,33 +141,34 @@ This is particularly relevant in our case, because stores selling goods are very
 
 In terms of implementation, Quad-Trees are a generalisation of binary search trees to two dimensions. In order to facilitate this, internal nodes in the Quad-Trees have four children rather than two. Naturally however, one has to ask: how are we ordering objects in two dimensions? It is common knowledge that extending from the reals to the complex numbers gives up natural ordering, and the same applies here. Well, I'm so glad you asked, dear reader. Think about it: what do we actually use ordering for in a binary search tree? We use it to figure out if an element goes left or right. And here? Well, if we're using ordering to partition, why not just partition without ordering? And so we do, recursively subdividing quads into 4 smaller quads when necessary.
 
-Insertion begins with a little preamble. If the object (the object in question is termed a SuperStore) to be inserted has a position that is outside of the bounding box of the Quad-Tree's root node, an exception is immediately thrown. Otherwise, the appropriate QuadNode child of the current node is chosen, created if it is currently null, and recursed on if it has an item (even if that item is null). When we reach a node that already has an item in it, we simply subdivide that node, and then reallocate both the current item and the previously stored item. Essentially, what this does is ensure that the depth of the tree is both \textbf{Dynamic} and \textbf{Local}. Naturally, you may wonder, "What if two SuperStores have the same position"? Well, for that, we have a minimum Quad size. This minimum Quad size is about 0.00045 degrees (latitude and longitude), which translates to a resolution of roughly 50 meters.
+Insertion begins with a little preamble. If the object (the object in question is termed a \texttt{SuperStore}) to be inserted has a position that is outside of the bounding box of the Quad-Tree's root node, an exception is immediately thrown. Otherwise, the appropriate QuadNode child of the current node is chosen, created if it is currently null, and recursed on if it has an item (even if that item is null). When we reach a node that already has an item in it, we simply subdivide that node, and then reallocate both the current item and the previously stored item. Essentially, what this does is ensure that the depth of the tree is both \textbf{Dynamic} and \textbf{Local}. Naturally, you may wonder, "What if two \texttt{SuperStore}s have the same position"? Well, for that, we have a minimum Quad size. This minimum Quad size is about 0.00045 degrees (latitude and longitude), which translates to a resolution of roughly 50 meters.
 
-Naturally, however, this raises another problem: How do we store multiple SuperStores in a single QuadNode? After all, as per the specifications of this assignment, QuadNode must extend Node, and Node only holds a single object of type T. Must we store an ArrayList of SuperStores? The answer is, kind of. You see, each SuperStore holds an Arraylist of items. And now you see why it's called a SuperStore; when two SuperStores would take up the same minimum-sized node, they instead merge their catalogues together. For this to work nicely, items must store their location so that what store they actually belong to can be ascertained, and indeed they do. While this is not the most space-efficient approach, the space required to store this information is not huge in the grand scheme of things.
+Naturally, however, this raise another problem: How do we store multiple \texttt{SuperStore}s in a single QuadNode? After all, as per the specifications of this assignment, QuadNode must extend Node, and Node only holds a single object of type T. Must we store an \texttt{ArrayList} of \texttt{SuperStore}s? The answer is, kind of. You see, each \texttt{SuperStore} holds an \texttt{ArrayList} of items. And now you see why it's called a \texttt{SuperStore}; when two \texttt{SuperStore}s would take up the same minimum-sized node, they instead merge their catalogues together. For this to work nicely, items must store their location so that what store they actually belong to can be ascertained, and indeed they do. While this is not the most space-efficient approach, the space required to store this information is not huge in the grand scheme of things.
 
 That more or less covers insertion. As there is no deletion operation (it doesn't make sense in this context), that leaves only window queries.
 
-The process for doing window queries is rather intuitive. We start at the root, where we iterate over all children. If a given child quad has overlap with the query area, we recurse on it, passing down a shared Arraylist of items. If not, we skip the child. Whenever we reach a child that has an object inside of it, we append all of its items (that are inside of the query area) to the Arraylist. Repeat, until all quads overlapping the query have been traversed. This Arraylist is finally returned when the recursion terminates.
+The process for doing window queries is rather intuitive. We start at the root, where we iterate over all children. If a given child quad has overlap with the query area, we recurse on it, passing down a shared \texttt{ArrayList} of items. If not, we skip the child. Whenever we reach a child that has an object inside of it, we append all of its items (that are inside of the query area) to the \texttt{ArrayList}. Repeat, until all quads overlapping the query have been traversed. This \texttt{ArrayList} is finally returned when the recursion terminates.
 
 \subsubsection{Time Complexity}
 
 \paragraph{Insertion:} 
 
-The worst-case time complexity of the insertion operation for Quad-Trees is O(n).
+The worst-case time complexity of the insertion operation for Quad-Trees is O(n), where n is the size of the element to be inserted.
 
-First, let us observe that no matter the structure of the tree, at most a finite number of recursive calls will be made to propagate down it. Due to the minimum size of the lowermost QuadNode, once we reach a depth of around 10 (because Singapore is roughly 50km across), we will hit the minimum size. However, since this is a finite distance, this only contributes a constant term to the asymptotic time complexity of the algorithm. Indeed, 10 is low enough that we can call it constant without feeling bad about it. More relevant here is the merge operation.
+First, let us observe that no matter the structure of the tree, at most a finite number of recursive calls will be made to propagate down it. Due to the minimum size of the lowermost QuadNode, once we reach a recursion depth of around 10 (because Singapore is roughly 50km across), we will hit the minimum size. However, since this is a finite distance, this only contributes a constant term to the asymptotic time complexity of the algorithm. Indeed, 10 is low enough that we can call it constant without feeling bad about it. More relevant here is the merge operation.
 
 Because we merge the the two catalogues together, we invariably invoke java's System.arrayCopy method. In researching the time complexity of this method, I have come to the conclusion that the only explanation here is "It's complicated". Given this, we will make the safe assumption that it is still O(n), where n is the number of elements to be moved from one array to another. \newline
-The time taken to run System.arrayCopy is then roughly of the form:
-$$T(n) = an + 10b + c$$
-Where a is the constant factor hidden behind O(n), b is the time taken to run one recursive call, and c is whatever other overhead we have. If we accept this, then the asymptotic worst-case time complexity of insertion is:
-$$O(n)$$
+The time taken to run \texttt{System.arraycopy} is then roughly of the form:
+$$T_i(n) = an + 10b + c$$
+Where a is the constant factor hidden behind O(n), b is the time taken to run one recursive call, and c is whatever other overhead we have. Since this only needs to be run once per insertion, and does not matter on the current state of the tree, merely the element being inserted, then the asymptotic worst-case time complexity of insertion is:
+$$O(T_i(n)) = O(an + 10b + c) = O(n)$$
+
 
 
 \paragraph{Range Query:} 
 The worst-case time complexity of the range query operation for Quad-Trees is O(n).
 
-At each recursion step, we must iterate over each of the four child nodes of the current node and add the number of elements $n_k$ inside the node to the shared arraylist. Since by greedy arguments, the worst case must when we query the entire search space, the worst-case time complexity of a range query is equivalent to the worst-case time complexity of traversing the entire tree and outputting all the items contained within it. 
+At each recursion step, we must iterate over each of the four child nodes of the current node and add the number of elements $n_k$ inside the node to the shared \texttt{ArrayList}. Since by greedy arguments, the worst case must when we query the entire search space, the worst-case time complexity of a range query is equivalent to the worst-case time complexity of traversing the entire tree and outputting all the items contained within it. 
 
 The former has a worst case time complexity of $T(n) = \max(4n, 4^{10}) + O(1)$. This is because at each insertion step, the tree will subdivide into four child nodes at most once, increasing the number of vertices and edges by 4. However, since we have artificially limited the depth of the tree by imposing real-world constraints, the time complexity of traversal is upper bounded by $4^{10}$, that is the branching factor raised to the power of the max depth. This is due to the fact that the number of vertices can be expressed as a recurrence relation:
 
@@ -177,7 +183,8 @@ a_d & = 4a_{d-1}\\
 
 As for the time complexity of outputting all the items, although the number of elements contained in each node varies, since there are at most $n$ items, the time complexity is only $O(n)$.
 
-Thus, the asymptotic worst-case time complexity is $O(n + 4n + 4^{10})$.
+
+Thus, the asymptotic worst-case time complexity is $O(n + 4n + 4^{10})$, equivalent to $O(n)$
 
 \paragraph{Why use Quad-Trees}
 
@@ -186,10 +193,10 @@ From our discussion of the worst-case analysis of the time complexities of Quad-
 
 \section{Testing Strategy}
 
-Logs of the sample input and output can be found at \url{https://github.com/ThePyProgrammer/SnackNow/tree/main/src/test/kotlin/model/algorithm/quadtree/testdata}. Sample input files end with '.csv', while sample output files end with '.out'.
+Logs of the sample input and output can be found at \url{https://github.com/ThePyProgrammer/SnackNow/tree/main/src/test/kotlin/model/algorithm/quadtree/testdata}. Sample input files end with \texttt{'.csv'}, while sample output files end with \texttt{'.out'}.
 
 
-\subsection{Grid.csv}
+\subsection{\texttt{grid.csv}}
 
 To stress-test our algorithm on a generic case, we generated a 20x20 grid of evenly spaced points and randomized queries. 
 
@@ -198,32 +205,32 @@ This test cases tests queries that are very thin and do not enclose any points, 
 \begin{figure}
     \centering
     \includegraphics[scale=0.8]{../img/grid.png}
-    \caption{Grid.csv}
+    \caption{\texttt{grid.csv}}
     \label{fig:my_label}
 \end{figure}
 
 
-\subsection{Edges.csv}
+\subsection{\texttt{edges.csv}}
 
 \begin{figure}
     \centering
     \includegraphics[scale=0.8]{../img/edges.png}
-    \caption{Edges.csv - Bounding box overlaps exactly with the brown query 1 window.}
+    \caption{\texttt{edges.csv} - Bounding box overlaps exactly with the brown query 1 window.}
     \label{fig:my_label}
 \end{figure}
 
 The program should throw an error when trying to insert points outside the bounding box.
 
 
-\subsection{Single.csv}
+\subsection{\texttt{single.csv}}
 \begin{figure}
     \centering
     \includegraphics[scale=0.8]{../img/single.png}
-    \caption{single.csv}
+    \caption{\texttt{single.csv}}
     \label{fig:my_label}
 \end{figure}
 
-We verify that the quadtree works even when it does not need to subdivide.
+We verify that the QuadTree works even when it does not need to subdivide.
 
 
 
@@ -259,10 +266,15 @@ You can find our repository at \url{https://github.com/ThePyProgrammer/SnackNow}
 By helping out a here and there in each component of the project, and reviewing our project while writing the report, I have gained a better understanding of the software development lifecycle, from the brainstorming stage, UI prototyping stage, data collection and documentation. By abstracting each component of the project, such as the model (RTree and Quadtree implementation) and GUI, and distributing the workload, we were able to be more productive, and it was enjoyable to see each of the pieces to connect together to give a minimum viable product.
 
 \subsection{Prannaya}
+In my humble opinion, with the help of this project, I have been able to understand the structures and methods associated with trees a lot better, compared to when I simply attempted Task I on its own. Getting to create a user interface to adapt trees showed me how such data structures can be used adaptively for different problems which I never thought of, and has broadened my perspective on using Data Structures like Queues and Stacks beyond IO-like problems. In general, it's been fun to see the apps come together, and I am happy to see that it works (somewhat).
 
 \subsection{Yu Pin}
 
 \subsection{Vikram}
+
+As the one who was responsible for the actual implementation of the Quad-Tree, I have learned a lot about the virtues and horrors of abstraction. The upside: It makes the code a lot neater to write, a lot easier to read, and is generally just elegant. The downside: It makes debugging code paradoxically more difficult, because when things are more elegant, and they don't work, trying to figure out what part of the elegance is breaking is very difficult. One particularly memorable aspect of debugging process (for me), was when I spent two days, on and off, trying to track down a bug present in my Queries. In the end, it turned out to not be in my queries, but in my insertions; my code was correct, I could swear it, and I was right. It was someone else's code which had broken, and abstraction had hidden it from my attention.
+
+Still, I learned a lot in the overall process. Not so much about the technical aspects of the programming, but in the process of researching which trees to use, I did hit upon somewhat of a realisation regarding data structure development. The distinction between implicit properties of data and explicit choices in organisation is not one that I had thought about much before this assignment, but now I understand more.
 
 \section{Work Distribution Matrix}
 
@@ -275,17 +287,20 @@ By helping out a here and there in each component of the project, and reviewing 
     R-Tree Implementation &  & \checkmark &  &  \\
     Quad-Tree Implementation &  &  &  & \checkmark \\
     Data Collection &  &  & \checkmark &  \\
-    User Interface  & \checkmark & \checkmark &  &  \\
+    User Interface  & \checkmark & \checkmark & \checkmark &  \\
     Report  & \checkmark & \checkmark  &  & \checkmark  \\
     \hline
 \end{tabular}
 \end{center}
+\small{*The R-Tree was cut in the end, but still worked on by Prannaya}
 
 
 \newpage
 
 
 \section{References}
+
+R. K. V. Kothuri, S. Ravada, D. Abugov, "Quadtree and R-tree Indexes in Oracle Spatial: A Comparison using GIS Data"
 
 \printbibliography[
 heading=none

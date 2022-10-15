@@ -1,7 +1,6 @@
 package data
 
 import model.algorithm.Item
-import model.base.Location
 import kotlin.math.round
 import kotlin.random.Random
 
@@ -51,6 +50,32 @@ private val FAKE_7_11 = mutableListOf(
 private val FAKE_SUPERMARKET = mutableListOf(
 
     FakeDataItem("Generic Plastic Bag", 0.10, 0.50, 0.00),
+    FakeDataItem("Ukraine Plastic Bag", 999.99, 0.05, 0.00),
+
+    FakeDataItem("Whole Chicken", 12.00, 1.00, 2.00, 0.20),
+    FakeDataItem("Half Chicken", 6.00, 0.50, 1.00, 0.10),
+    FakeDataItem("1/4 Chicken", 3.00, 0.25, 0.50, 0.10),
+    FakeDataItem("1/8 Chicken", 1.50, 0.125, 0.25, 0.05),
+    FakeDataItem("1/16 Chicken", 0.75, 0.0625, 0.10, 0.05),
+    FakeDataItem("1/32 Chicken", 0.38, 0.03125, 0.05, 0.02),
+    FakeDataItem("1/64 Chicken", 0.19, 0.015625, 0.025, 0.01),
+    FakeDataItem("1/128 Chicken", 0.09, 0.0078125, 0.0125, 0.01),
+    FakeDataItem("1/256 Chicken", 0.05, 0.00390625, 0.00625, 0.01),
+    FakeDataItem("1/512 Chicken", 0.02, 0.001953125, 0.0),
+    FakeDataItem("1/1024 Chicken", 0.01, 0.0009765625, 0.0),
+
+)
+
+private val FAKE_HAWKER_CENTRE = mutableListOf(
+
+    FakeDataItem("Hawker Centre Food", 3.50, 1.00, 0.50),
+
+    FakeDataItem("A Small Fish", 3.00, 0.33, 0.60),
+    FakeDataItem("A Medium Fish", 4.50, 0.33, 0.80),
+    FakeDataItem("A Large Fish", 6.00, 0.33, 1.00),
+    FakeDataItem("A Very Large Fish", 10.00, 0.1, 1.50),
+    FakeDataItem("A Shark", 12345.67, 0.06, 0.00),
+    FakeDataItem("Two Sharks", 24691.34, 0.04, 0.00),
 
 )
 
@@ -88,16 +113,22 @@ fun insertFakeData(place: Place, dataList: MutableList<FakeDataItem>) {
 
 fun initFakeData(places: ArrayList<Place>) {
 
+    FAKE_SUPERMARKET.addAll(getSupermarketItems())
+    FAKE_SUPERMARKET.addAll(getHawkerCentreItems())
+
     for (place: Place in places) {
         when (place.type) {
             PlaceType.SEVEN_ELEVEN -> {
                 insertFakeData(place, FAKE_7_11)
             }
             PlaceType.HAWKER_CENTRE -> {
-
+                insertFakeData(place, FAKE_HAWKER_CENTRE)
             }
             PlaceType.SUPERMARKET -> {
                 insertFakeData(place, FAKE_SUPERMARKET)
+            }
+            PlaceType.NONE -> {
+                // no items to add
             }
         }
     }
