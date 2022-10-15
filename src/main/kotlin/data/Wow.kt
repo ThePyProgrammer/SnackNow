@@ -23,15 +23,14 @@ fun sevenElevens(): ArrayList<Location> {
                     val latitude = matcher.group(3).toDouble()
                     if (latitude == 0.0) {
                         // check to remove funny africa point
+                        line = br.readLine()
                         continue
                     }
                     val longitude = matcher.group(4).toDouble()
                     val location =
                         Location(matcher.group(1), latitude, longitude, getURL(latitude, longitude))
                     result.add(location)
-                } else {
-                    println("skill issue") // replace with error or better text
-                }
+                } // else?
                 line = br.readLine()
             }
         }

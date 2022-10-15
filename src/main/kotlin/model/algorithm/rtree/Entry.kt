@@ -1,7 +1,9 @@
 package model.algorithm.rtree
 
+import model.base.Point
+
 class Entry<T>(
-    coords: Array<Float>, dimensions: Array<Float>,
+    coords: Point, dimensions: Array<Double>,
     val entry: T
 ): SpatialNode(coords, dimensions) {
     override fun toString() = "Entry: $entry"
