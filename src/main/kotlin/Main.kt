@@ -7,9 +7,17 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.loadImageBitmap
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import model.base.Result
@@ -18,6 +26,7 @@ import ui.lib.Combobox
 import ui.lib.NumberPicker
 import util.initialize
 import util.search
+import java.io.File
 
 @Composable
 @Preview
@@ -108,11 +117,18 @@ fun main() = application {
         height = 600.dp
     )
     val windowTitle by remember { mutableStateOf("SnackNow") }
+
+//    val file = File("snack_now_icon.png")
+//    val imageBitmap: ImageBitmap = remember(file) {
+//        loadImageBitmap(file.inputStream())
+//    }
+
+    val windowIcon = remember { mutableStateOf(Icons.Filled.ShoppingCart) }
     Window(
         title = windowTitle,
         resizable = true,
         state = state,
-        icon = null,
+        icon = painterResource("snack_now_icon.png"), //rememberVectorPainter(windowIcon.value),
         onCloseRequest = ::exitApplication
     ) {
         App()
