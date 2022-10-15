@@ -9,16 +9,9 @@ import model.algorithm.SuperStore
 import model.base.Location
 import model.base.Point
 import model.base.Result
-import userLocation
 import java.io.IOException
 import kotlin.math.cos
 
-private val SINGAPORE_RECTANGLE_ALL_WRONG = listOf(
-    103.6920359, // left
-    104.0120359, // right
-    1.4504753, // top
-    1.1304753 // bottom
-)
 private val SINGAPORE_RECTANGLE = listOf(
     103.470200, // left
     1.143773, // bottom
@@ -31,6 +24,8 @@ private val tree: QuadTree<SuperStore, Item> = QuadTree(
     Point(SINGAPORE_RECTANGLE[2], SINGAPORE_RECTANGLE[1])
 )
 private val places = ArrayList<Place>()
+
+// initialize stuff
 
 private fun getData() {
     try {
@@ -54,6 +49,8 @@ fun initialize() {
     }
 
 }
+
+// stuff to make the search function work
 
 fun itemToResult(item: Item): Result {
     return Result(item.itemName, item.price, item.address, item)
@@ -86,7 +83,7 @@ fun search(searchValue: String, userLocation: Location, numQueries: Int, distanc
 
     val userPoint = Point(userLocation.lng, userLocation.lat)
 
-    val km = if(distancePriority == "High") 2.0 else if (distancePriority == "Medium") 5.0 else 10.0
+    val km = if (distancePriority == "High") 2.0 else if (distancePriority == "Medium") 5.0 else 10.0
 
     val queryItems = tree.rangeQuery(
         userPoint.offsetBounded(km2latlng(km, -km)),
@@ -101,14 +98,14 @@ fun search(searchValue: String, userLocation: Location, numQueries: Int, distanc
         }
     }
 
-    if(result.size == 0) return result
+    if (result.size == 0) return result
 
     val FINAL_ARRAY = ArrayList<Result>(numQueries)
-    for(iter in 1..numQueries) {
+    for (iter in 1..numQueries) {
         var localMinimum: Result = result[0]
         var localMinimumIdx = 0
-        for(idx in 1 until result.size) {
-            if(result[idx].price < localMinimum.price) {
+        for (idx in 1 until result.size) {
+            if (result[idx].price < localMinimum.price) {
                 localMinimum = result[idx]
                 localMinimumIdx = idx
             }
