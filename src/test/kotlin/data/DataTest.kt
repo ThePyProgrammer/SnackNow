@@ -1,6 +1,5 @@
 package data
 
-import model.base.Location
 import java.io.IOException
 
 fun main() {

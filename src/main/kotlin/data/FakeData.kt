@@ -8,7 +8,7 @@ import kotlin.random.Random
 //     ["name", price, include chance, fake price variation between places (optional, default is 10% of price), smallest interval of variation (optional, default 10)]
 // ]
 
-private const val SEED = 123456789
+private const val SEED = 1234567890
 private val random = Random(SEED)
 
 private val FAKE_7_11 = mutableListOf(
@@ -17,7 +17,6 @@ private val FAKE_7_11 = mutableListOf(
     FakeDataItem("Cheesy Chicken Burger", 2.90, 0.90, 0.30),
     FakeDataItem("Spicy Chicken Burger", 2.90, 0.90, 0.40),
     FakeDataItem("Fish Burger", 2.90, 0.90, 0.50),
-    FakeDataItem("Chocolate Lava Cake", 4.00, 0.90, 1.00),
 
     // which sands? (the only thing I can find prices for, and the prices are real)
     FakeDataItem("Chicken Ham with Cheese Sandwich", 3.40, 0.95, 0.00),
@@ -29,20 +28,28 @@ private val FAKE_7_11 = mutableListOf(
     FakeDataItem("Prawn Salad Sandwich", 3.60, 0.95, 0.00),
     FakeDataItem("Triple Combo Sandwich (Tuna + Chicken Ham with Cheese + Egg Mayo)", 3.90, 0.95, 0.00),
     FakeDataItem("Tuna Sandwich", 3.40, 0.95, 0.00),
+
     FakeDataItem("Slurpee", 1.60, 1.00, 0.20),
     FakeDataItem("Mr. Softee", 1.50, 0.90, 0.20),
+    FakeDataItem("Chocolate Lava Cake", 4.00, 0.90, 1.00),
 
     // totally fake things
+
     FakeDataItem("Coffee", 1.50, 0.50, 0.01), // for fun, price is not real
     FakeDataItem("Tea", 1.50, 0.50, 0.02), // T
     FakeDataItem("Coffee and Tea", 3.00, 2.00, 0.03), // test
+    FakeDataItem("Mineral Water", 1.00, 0.50, 0.10),
+    FakeDataItem("Deionized Water", 5.00, 0.50, 0.50),
+
     FakeDataItem("Some Food", 1.00, 0.15, 0.00),
     FakeDataItem("More Food", 1.00, 0.15, 0.00),
     FakeDataItem("Even More Food", 1.00, 0.15, 0.00),
     FakeDataItem("Snack Now!", 0.50, 0.25, 0.10),
     FakeDataItem("Snake Snack 🐍", 15.00, 0.10, 1.00, 0.01),
+
     FakeDataItem("Among Us Sandwich", 1000.00, 0.10, 999.99, 0.01),
-    FakeDataItem("7-SELECT 100% FRESH AIR", 10.00, 0.50, 0.00),
+    FakeDataItem("7-SELECT 100% FRESH AIR", 10.00, 0.30, 0.00),
+    FakeDataItem("7-SELECT 100% PURE WATER", 20.00, 0.30, 0.00),
     FakeDataItem("Black Body Radiation", 0.01, 0.10, 0.00),
 
 )
@@ -64,18 +71,31 @@ private val FAKE_SUPERMARKET = mutableListOf(
     FakeDataItem("1/512 Chicken", 0.02, 0.001953125, 0.0),
     FakeDataItem("1/1024 Chicken", 0.01, 0.0009765625, 0.0),
 
-)
-
-private val FAKE_HAWKER_CENTRE = mutableListOf(
-
-    FakeDataItem("Hawker Centre Food", 3.50, 1.00, 0.50),
-
     FakeDataItem("A Small Fish", 3.00, 0.33, 0.60),
     FakeDataItem("A Medium Fish", 4.50, 0.33, 0.80),
     FakeDataItem("A Large Fish", 6.00, 0.33, 1.00),
     FakeDataItem("A Very Large Fish", 10.00, 0.1, 1.50),
     FakeDataItem("A Shark", 12345.67, 0.06, 0.00),
     FakeDataItem("Two Sharks", 24691.34, 0.04, 0.00),
+
+)
+
+private val FAKE_HAWKER_CENTRE = mutableListOf(
+
+    FakeDataItem("Hawker Centre Food", 3.50, 1.00, 0.50),
+
+    FakeDataItem("Bowl of Rice", 1.00, 0.95, 0.00),
+    FakeDataItem("Another Bowl of Rice", 0.50, 0.05, 0.00),
+    FakeDataItem("Sus (Pig) Rice", 555.55, 0.2, 0.00),
+
+    FakeDataItem("Cup of Water", 0.50, 0.95, 0.00),
+    FakeDataItem("Cup of Coffee", 1.10, 0.95, 0.10),
+    FakeDataItem("Cup of Tea", 1.10, 0.95, 0.10),
+    FakeDataItem("Bowl of Water", 1.00, 0.25, 0.00),
+    FakeDataItem("☕ of ⓣ", 110.00, 0.05, 10.00, 10.00),
+
+    FakeDataItem("Chicken and Rice", 3.25, 0.75, 0.50, 0.05),
+
 
 )
 
