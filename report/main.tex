@@ -49,7 +49,7 @@
 \usepackage{tikz}
 \def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
 \usepackage[sorting=none]{biblatex}
-\addbibresource{references.bib}
+\addbibresource{main.bib}
 
 \newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
 \onehalfspacing
@@ -110,19 +110,54 @@ Below is an image of the planned wireframes, which we have largely adapted into 
 
 The app is a desktop app that can be run as an EXE or a JAR. The idea is to add a specific item that you wish to buy to the first textbox, then indicate how much you prioritize the distance, and also scroll up and down for the number of results. Upon pressing search, the app queries the areas based on the distance setting and produces results in the form of cards. This card contains the following:
 \begin{itemize}
-    \item Name of Product at the relevant store
-    \item The Address of the relevant store
-    \item And image of the location of the store
-    \item The price of the item
+    \item Name of product at the relevant store
+    \item Address of the relevant store
+    \item Image of the location of the store
+    \item Price of the item
 \end{itemize}
 
 In order to indicate your location, you have to put in your postal code (due to the current permission-related limitations of Jetpack Compose). The app then queries a database to identify your latitude and longitude for querying.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/pa2appImg.png}
+    \caption{The final application - As you may notice, we query from ION Orchard due to the limitations of the database}
+    \label{fig:appLayout}
+\end{figure}
+
+
+This app has some limitations though. For one, only a small area was actually queried as the locations of the 7-Elevens (which we used as our underlying database) were only limited to a specific region of Singapore, as shown below:
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/711locations.jpg}
+    \caption{The search limitation on Google Maps lead to only a certain set of readings, mainly barring the eastside of Singapore}
+    \label{fig:711locations}
+\end{figure}
+
+This leads to the following screen being rendered, which obviously isn't correct:
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/pa2limitations.png}
+    \caption{The limited set causes no results in Simei, an eastern estate in Singapore}
+    \label{fig:pa2limitations}
+\end{figure}
+
+On the other hand, another thing implemented to ensure user understand what is going on is a dummy list generated on start-up.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/pa2appStartup.png}
+    \caption{We swear, this is a \textit{feature}, not a \textit{bug}!}
+    \label{fig:pa2limitations}
+\end{figure}
+
+
+
 \section{Analysis and Explanation of Implemented Tree Methods}
 
 \textit{Provide a brief explanation, in your own words, and rigorous mathematical worst-case analysis derivation and time complexity of the key methods of your tree structure (retrieval, insertion, deletion, balance (if any))}
-
-
 
 \subsection{Spatial Quad-Trees}
 \begin{figure}
@@ -135,9 +170,9 @@ Quad-Trees are commonly used in analysing the distribution of a collection in 2D
 
 \subsubsection{Why Quad-Trees?}
 
-So, given the above issues, why did we choose Quad-Trees? Quad-Trees address this by adopting a recursive subdivision approach to grid-propagation. That is, a quadrant is subdivided only during when there is a child node to be inserted into the quadrant. The depth of the tree is thus proportional to the log of the local density of points, which results in many speedups. Empty areas have very low depth, and dense areas have fewer "collisions".
+So, given the above issues, why did we choose Quad-Trees? Quad-Trees address this by adopting a recursive subdivision approach to grid-propagation~\cite{rvqtree}. That is, a quadrant is subdivided only during when there is a child node to be inserted into the quadrant. The depth of the tree is thus proportional to the log of the local density of points, which results in many speedups. Empty areas have very low depth, and dense areas have fewer "collisions".
 
-This is particularly relevant in our case, because stores selling goods are very much not uniformly distributed throughout space. Many parts of Singapore, such as housing areas, will obviously have a relatively lower density of food-sellers than a large shopping mall. There is a hierarchy to be found here, too. While Quads obviously do not perfectly represent buildings, a resolution of 50 meters ensures that a building is likely to take up a subtree of depth 1-2 at the most. The implicit ordering follows upwards: A few of these subtrees form a series of blocks, these blocks form an area, and so on and so forth. While this is more a reflection of the choice of 50 meters than anything else, the arrangement is still noteworthy. It also, being a relatively small number, ensures that a quad will not have too many stores in it.
+This is particularly relevant in our case, because stores selling goods are very much not uniformly distributed throughout space. Many parts of Singapore, such as housing areas, will obviously have a relatively lower density of food-sellers than a large shopping mall. There is a hierarchy to be found here, too. While quads obviously do not perfectly represent buildings, a resolution of 50 meters ensures that a building is likely to take up a subtree of depth 1-2 at the most. The implicit ordering follows upwards: A few of these subtrees form a series of blocks, these blocks form an area, and so on and so forth. While this is more a reflection of the choice of 50 meters than anything else, the arrangement is still noteworthy. It also, being a relatively small number, ensures that a quad will not have too many stores in it.
 
 \subsubsection{Algorithm}
 
@@ -200,17 +235,41 @@ Logs of the sample input and output can be found at \url{https://github.com/TheP
 
 \subsection{\texttt{grid.csv}}
 
-To stress-test our algorithm on a generic case, we generated a 20x20 grid of evenly spaced points and randomized queries. 
+To stress-test our algorithm, we generated a 20x20 grid of evenly spaced points and randomized queries. This dataset should resemble real world data in density and distribution.
 
-This test cases tests queries that are very thin and do not enclose any points, queries which barely enclose points, queries which barely graze points, large queries, and queries close to the boundary.
+This test cases tests queries that are very thin and do not enclose any points (8,10), queries which barely enclose points (2,4,6,7,9), queries which barely graze points (6 (notice the third point falls just outside the bounding box)), large queries (4,7), and queries close to the boundary (3). As expected, we may verify that the algorithm is robust in handling large instances, does not suffer from numerical errors in picking out stores close to a boundary, and works consistently. This should cover most typical cases.
 
 \begin{figure}
     \centering
     \includegraphics[scale=0.8]{../img/grid.png}
-    \caption{\texttt{grid.csv}}
+    \caption{Visualization of the sample input of \texttt{grid.csv}}
     \label{fig:my_label}
 \end{figure}
 
+
+\begin{verbatim}
+OUTPUT:
+1) Queried (0.00365, 0.00864) to (0.00762, 0.00762) and received 16 result(s):
+... full output suppressed
+2) Queried (0.00263, 0.00806) to (0.00806, 0.00548) and received 50 result(s):
+... full output suppressed
+3) Queried (0.00590, 0.00990) to (0.00990, 0.00753) and received 28 result(s):
+... full output suppressed
+4) Queried (0.00050, 0.00815) to (0.00815, 0.00094) and received 210 result(s):
+... full output suppressed
+5) Queried (0.00606, 0.00873) to (0.00652, 0.00652) and received 4 result(s):
+[(0.00632, 0.00684), (0.00632, 0.00737), (0.00632, 0.00789), (0.00632, 0.00842)]
+6) Queried (0.00886, 0.00344) to (0.00999, 0.00310) and received 2 result(s):
+[(0.00895, 0.00316), (0.00947, 0.00316)]
+7) Queried (0.00312, 0.00728) to (0.00728, 0.00106) and received 88 result(s):
+... full output suppressed
+8) Queried (0.00898, 0.00893) to (0.00898, 0.00033) and received 0 result(s):
+[]
+9) Queried (0.00074, 0.00723) to (0.00723, 0.00624) and received 24 result(s):
+... full output suppressed
+10) Queried (0.00045, 0.00891) to (0.00891, 0.00888) and received 0 result(s):
+[]
+\end{verbatim}
 
 \subsection{\texttt{edges.csv}}
 
@@ -221,24 +280,27 @@ This test cases tests queries that are very thin and do not enclose any points, 
     \label{fig:my_label}
 \end{figure}
 
-The program should throw an error when trying to insert points outside the bounding box.
+The program should throw an error when trying to insert points outside the bounding box to alert the user of malformed data.
 
 \begin{verbatim}
-    Exception in thread "main" java.lang.IndexOutOfBoundsException: Point outside of bounding box of QuadTree!
+OUTPUT:
+Exception in thread "main" java.lang.IndexOutOfBoundsException:
+Point outside of bounding box of QuadTree!
 \end{verbatim}
 
 \subsection{\texttt{single.csv}}
 \begin{figure}
     \centering
     \includegraphics[scale=0.8]{../img/single.png}
-    \caption{\texttt{single.csv}}
+    \caption{Sample data visualization from \texttt{single.csv}}
     \label{fig:my_label}
 \end{figure}
 
 We verify that the QuadTree works even when it does not need to subdivide.
 
 \begin{verbatim}
-    1) Queried (-0.01000, 0.01000) to (0.01000, -0.01000) and received 1 result(s):
+OUTPUT:
+1) Queried (-0.01000, 0.01000) to (0.01000, -0.01000) and received 1 result(s):
 [(0.00000, 0.00000)]
 \end{verbatim}
 
@@ -265,6 +327,13 @@ You can find our repository at \url{https://github.com/ThePyProgrammer/SnackNow}
 
 \subsection{Repo Report}
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/commit_graph.PNG}
+    \caption{Our Commit Graph}
+    \label{fig:commit_graph}
+\end{figure}
+
 \section{Reflection}
 
 \subsection{Vishal}
@@ -276,7 +345,7 @@ In my humble opinion, with the help of this project, I have been able to underst
 
 \subsection{Yu Pin}
 
-Doing this project made me understand how trees that don't exist in real life are used in real life, and made me have the experience of creating an application that is actually useful. While doing the data collection, I found out how hard it is to get some Singapore-specific data, especially the fact that there was no way to get the locations of all the convenience stores in Singapore. Therefore, I even had to generate some fake data, and the process of doing that was enjoyable. The project is coded in both Java and Kotlin, and I realised how easy it is to use both languages in one project. While working on the application, after the user interface was done, I used the data I had collected and the data structure that Vikram implemented to make it work, and it was interesting to see all the data and the quadtree come together to make the application useful and efficient.
+Doing this project made me understand how trees that don't exist in real life are used in real life, and made me have the experience of creating an application that is actually useful. While doing the data collection, I found out how hard it is to get some Singapore-specific data, especially the fact that there was no way to get the locations of all the convenience stores in Singapore other than to visit all of them. There wasn't much data about the items too, so I had to generate some fake items, and the process of doing that was... enjoyable. The project is coded in both Java and Kotlin, and I realised how easy it is to use both languages in one project. While working on the application after the user interface was made, I used the data I had collected and the data structure that Vikram implemented to make the application work, and it was interesting to see all the data and the quadtree come together to make it useful and efficient.
 
 \subsection{Vikram}
 
@@ -307,8 +376,6 @@ Still, I learned a lot in the overall process. Not so much about the technical a
 
 
 \section{References}
-
-R. K. V. Kothuri, S. Ravada, D. Abugov, "Quadtree and R-tree Indexes in Oracle Spatial: A Comparison using GIS Data"
 
 \printbibliography[
 heading=none

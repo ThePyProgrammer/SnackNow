@@ -24,11 +24,11 @@ import ui.lib.NumberPicker
 import util.initialize
 import util.search
 
-var userLocation: Location? = null
 
 @Composable
 @Preview
 fun app() {
+    var userLocation: Location? = null
     var text by remember { mutableStateOf("") }
     var postalCode by remember { mutableStateOf("") }
     var address by remember { mutableStateOf("Enter a postal code!") }
@@ -94,7 +94,7 @@ fun app() {
                     Row(Modifier.padding(10.dp).align(Alignment.End)) {
                         Button(
                             onClick = {
-                                if(userLocation != null && priority.value in arrayOf("High", "Medium", "Low")) {
+                                if (userLocation != null && priority.value in arrayOf("High", "Medium", "Low")) {
                                     results.clear()
                                     results.addAll(search(text, userLocation!!, queries.value, priority.value))
                                 }
