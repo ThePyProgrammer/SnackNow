@@ -6,8 +6,8 @@ import model.base.Point
 
 class Place(
     val address: String = "",
-    val longitude: Double = 0.0,
     val latitude: Double = 0.0,
+    val longitude: Double = 0.0,
     val type: PlaceType = PlaceType.NONE, // extra thing I need
 ) {
 

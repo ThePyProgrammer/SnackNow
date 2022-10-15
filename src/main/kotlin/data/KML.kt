@@ -37,9 +37,9 @@ fun parseKML(filename: String): ArrayList<Place> {
                     "coordinates" -> {
                         nextEvent = reader.nextEvent()
                         val point: String = nextEvent.asCharacters().data
-                        val splinted = point.split(",")
-                        longitude = splinted[0].toDouble()
-                        latitude = splinted[1].toDouble()
+                        val splitted = point.split(",")
+                        longitude = splitted[0].toDouble()
+                        latitude = splitted[1].toDouble()
                     }
                     "SimpleData" -> {
                         val name: Attribute? = startElement.getAttributeByName(QName("name"))

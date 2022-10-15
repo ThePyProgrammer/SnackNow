@@ -53,7 +53,7 @@ fun initialize() {
 }
 
 fun itemToResult(item: Item): Result {
-    return Result(item.itemName, item.price, item.address)
+    return Result(item.itemName, item.price, item.address, item)
 }
 
 // main search function
@@ -62,16 +62,16 @@ fun search(value: String): ArrayList<Result> {
         initialize()
         firstSearch = false
     }
-    tree.rangeQuery(
+    val queryItems = tree.rangeQuery(
         Point(SINGAPORE_RECTANGLE[0], SINGAPORE_RECTANGLE[3]),
         Point(SINGAPORE_RECTANGLE[2], SINGAPORE_RECTANGLE[1])
     )
     val result = ArrayList<Result>()
-    val strings = listOf("random", "hello", "test", "item", "default", "wow", "search", "key", "a very long string, hopefully this matches stuff", "")
-    for (s in strings) {
-        val searchRatio = FuzzySearch.partialRatio(value, s)
+    // val strings = listOf("random", "hello", "test", "item", "default", "wow", "search", "key", "a very long string, hopefully this matches stuff", "")
+    for (item in queryItems) {
+        val searchRatio = FuzzySearch.partialRatio(value, item.itemName)
         if (searchRatio > SEARCH_THRESHOLD) {
-            result.add(itemToResult(Item(s, "some random address", Point(0.0, 0.0), 0.00)))
+            result.add(itemToResult(item))
         }
     }
     return result

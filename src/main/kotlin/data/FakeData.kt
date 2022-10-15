@@ -75,8 +75,13 @@ fun insertFakeData(place: Place, dataList: MutableList<FakeDataItem>) {
 
     for (item in dataList) {
         if (item.chance > random.nextDouble()) {
-            var price = random.nextDouble(item.price - item.uncertainty, item.price + item.uncertainty)
-            price = round(price / item.step) * item.step
+            var price = 0.00
+            if (item.uncertainty <= 0.0) {
+                price = item.price
+            } else {
+                random.nextDouble(item.price - item.uncertainty, item.price + item.uncertainty)
+                price = round(price / item.step) * item.step
+            }
             place.items.add(Item(item.name, place.address, place.point, price))
         }
     }
