@@ -118,11 +118,27 @@ The app is a desktop app that can be run as an EXE or a JAR. The idea is to add 
 
 In order to indicate your location, you have to put in your postal code (due to the current permission-related limitations of Jetpack Compose). The app then queries a database to identify your latitude and longitude for querying.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/pa2appImg.png}
+    \caption{The final application - As you may notice, we query from ION Orchard due to the limitations of the database}
+    \label{fig:appLayout}
+\end{figure}
+
+
+This app has some limitations though. For one, only a small area was actually queried as the locations of the 7-Elevens (which we used as our underlying database) were only limited to a specific region of Singapore, as shown below:
+
+
+This leads to the following screen being rendered, which obviously isn't correct:
+
+
+On the another thing implemented to ensure user understand what is going on is a dummy list generated on start-up.
+
+
+
 \section{Analysis and Explanation of Implemented Tree Methods}
 
 \textit{Provide a brief explanation, in your own words, and rigorous mathematical worst-case analysis derivation and time complexity of the key methods of your tree structure (retrieval, insertion, deletion, balance (if any))}
-
-
 
 \subsection{Spatial Quad-Trees}
 \begin{figure}
@@ -200,9 +216,9 @@ Logs of the sample input and output can be found at \url{https://github.com/TheP
 
 \subsection{\texttt{grid.csv}}
 
-To stress-test our algorithm on a generic case, we generated a 20x20 grid of evenly spaced points and randomized queries. 
+To stress-test our algorithm, we generated a 20x20 grid of evenly spaced points and randomized queries. This dataset should resemble real world data in density and distribution.
 
-This test cases tests queries that are very thin and do not enclose any points, queries which barely enclose points, queries which barely graze points, large queries, and queries close to the boundary.
+This test cases tests queries that are very thin and do not enclose any points, queries which barely enclose points, queries which barely graze points, large queries, and queries close to the boundary. As expected, we may verify that the algorithm is robust in handling large instances, does not suffer from numerical errors in picking out stores close to a boundary, and works consistently. This should cover most typical cases.
 
 \begin{figure}
     \centering
@@ -211,6 +227,30 @@ This test cases tests queries that are very thin and do not enclose any points, 
     \label{fig:my_label}
 \end{figure}
 
+
+\begin{verbatim}
+OUTPUT:
+1) Queried (0.00365, 0.00864) to (0.00762, 0.00762) and received 16 result(s):
+... full output suppressed
+2) Queried (0.00263, 0.00806) to (0.00806, 0.00548) and received 50 result(s):
+... full output suppressed
+3) Queried (0.00590, 0.00990) to (0.00990, 0.00753) and received 28 result(s):
+... full output suppressed
+4) Queried (0.00050, 0.00815) to (0.00815, 0.00094) and received 210 result(s):
+... full output suppressed
+5) Queried (0.00606, 0.00873) to (0.00652, 0.00652) and received 4 result(s):
+[(0.00632, 0.00684), (0.00632, 0.00737), (0.00632, 0.00789), (0.00632, 0.00842)]
+6) Queried (0.00886, 0.00344) to (0.00999, 0.00310) and received 2 result(s):
+[(0.00895, 0.00316), (0.00947, 0.00316)]
+7) Queried (0.00312, 0.00728) to (0.00728, 0.00106) and received 88 result(s):
+... full output suppressed
+8) Queried (0.00898, 0.00893) to (0.00898, 0.00033) and received 0 result(s):
+[]
+9) Queried (0.00074, 0.00723) to (0.00723, 0.00624) and received 24 result(s):
+... full output suppressed
+10) Queried (0.00045, 0.00891) to (0.00891, 0.00888) and received 0 result(s):
+[]
+\end{verbatim}
 
 \subsection{\texttt{edges.csv}}
 
@@ -221,10 +261,12 @@ This test cases tests queries that are very thin and do not enclose any points, 
     \label{fig:my_label}
 \end{figure}
 
-The program should throw an error when trying to insert points outside the bounding box.
+The program should throw an error when trying to insert points outside the bounding box to alert the user of malformed data.
 
 \begin{verbatim}
-    Exception in thread "main" java.lang.IndexOutOfBoundsException: Point outside of bounding box of QuadTree!
+OUTPUT:
+Exception in thread "main" java.lang.IndexOutOfBoundsException:
+Point outside of bounding box of QuadTree!
 \end{verbatim}
 
 \subsection{\texttt{single.csv}}
@@ -238,7 +280,8 @@ The program should throw an error when trying to insert points outside the bound
 We verify that the QuadTree works even when it does not need to subdivide.
 
 \begin{verbatim}
-    1) Queried (-0.01000, 0.01000) to (0.01000, -0.01000) and received 1 result(s):
+OUTPUT:
+1) Queried (-0.01000, 0.01000) to (0.01000, -0.01000) and received 1 result(s):
 [(0.00000, 0.00000)]
 \end{verbatim}
 
