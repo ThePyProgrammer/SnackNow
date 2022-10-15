@@ -30,11 +30,15 @@ public class SuperStore implements Mergeable<SuperStore>, Listlike<Item> {
         // There is no removal method, because that doesn't really make sense
     }
 
+    /*
     @Override
-    public SuperStore Merge(SuperStore store) {
+    public void merge(SuperStore store) {
         ArrayList<Item> out = new ArrayList<>();
         int p1 = 0;
         int p2 = 0;
+
+        allItems.sort(Item::compareTo);
+        store.allItems.sort(Item::compareTo);
 
         while(p1 != allItems.size() && p2 != store.allItems.size()) {
             Item item1 = allItems.get(p1);
@@ -71,11 +75,17 @@ public class SuperStore implements Mergeable<SuperStore>, Listlike<Item> {
             p2++;
         }
 
-        return new SuperStore(out);
+        allItems = out;
         //TODO hope and pray that this actually works
     }
+    */
 
-    public ArrayList<Item> ListOut() {
+    @Override
+    public void merge(SuperStore input) {
+        this.allItems.addAll(input.allItems);
+    }
+
+    public ArrayList<Item> listOut() {
         return allItems;
     }
 

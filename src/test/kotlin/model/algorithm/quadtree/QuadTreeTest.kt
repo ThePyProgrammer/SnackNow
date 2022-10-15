@@ -5,6 +5,7 @@ import model.algorithm.QuadTree
 import model.algorithm.SuperStore
 import model.base.Point
 import java.io.File
+import java.util.Random;
 
 
 class Testcase(val bounds: List<Point>, val inserts: List<Point>, val queries: List<List<Point>>)
@@ -26,10 +27,11 @@ fun readCSV(filename: String) : Testcase {
 }
 
 fun test(test: Testcase) {
+    val rand = Random()
     val tree = QuadTree<SuperStore, Item>(test.bounds[0],test.bounds[1])
     test.inserts.forEach { insert ->
         tree.insert(SuperStore().apply {
-              addItem(Item("","",insert,1.0))
+              addItem(Item(rand.nextDouble().toString(),"",insert,1.0))
           }, insert)
     }
 
@@ -66,10 +68,8 @@ fun test(test: Testcase) {
 fun main() {
     val rootpath = "src/test/kotlin/model/algorithm/quadtree/testdata"
     println("========= SAMPLE TEST CASE =========")
-    println("========= TEST GENERIC CASE =========")
+    println("========= TEST SIMPLE CASE =========")
     test(readCSV("${rootpath}/simple.csv"))
     println("========= TEST LARGE CASE =========")
     test(readCSV("${rootpath}/grid.csv"))
-
-
 }

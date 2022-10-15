@@ -16,7 +16,7 @@ public class Item extends Point implements Comparable<Item> {
 
     public boolean isEqualTo(Item item) {
         return itemName.equals(item.itemName) && address.equals(item.itemName)
-                && x == item.x && y == item.y && price == item.price;
+                && getX() == item.getX() && getY() == item.getY() && price == item.price;
     }
 
     public Item minimizeCost(Item item) { // Returns the one with the lower cost, of the two
@@ -30,6 +30,6 @@ public class Item extends Point implements Comparable<Item> {
     }
 
     public String toString() {
-        return "\nName: " + itemName + ", Address: " + address + ", Price: " + price + ", (x, y): (" + x + ", " + y + ")";
+        return "\nName: " + itemName + ", Address: " + address + ", Price: " + price + ", (x, y): (" + getX() + ", " + getY() + ")";
     }
 }

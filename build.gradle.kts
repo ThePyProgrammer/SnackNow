@@ -18,6 +18,7 @@ repositories {
 
 dependencies {
     implementation(compose.desktop.currentOs)
+    implementation("me.xdrop:fuzzywuzzy:1.4.0")
 }
 
 tasks.withType<KotlinCompile> {
