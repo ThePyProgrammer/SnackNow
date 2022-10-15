@@ -19,6 +19,7 @@ repositories {
 dependencies {
     implementation(compose.desktop.currentOs)
     implementation("me.xdrop:fuzzywuzzy:1.4.0")
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.6.0")
 }
 
 tasks.withType<KotlinCompile> {

@@ -3,8 +3,10 @@
 
 package data
 
+import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import model.base.Location
 import java.io.BufferedReader
+import java.io.File
 import java.io.FileReader
 import java.io.IOException
 import java.net.URL
@@ -51,22 +53,17 @@ private val postalCodeThingy = mutableMapOf<Int, Location>()
 
 fun initPostalCodeThingy() {
     try {
-        BufferedReader(FileReader("data/database.csv")).use { br ->
-            var line = br.readLine()
-            while (line != null) {
-                // the past tense of split is split
-                val split = line.split(",")
-                if (split[0] == "ADDRESS") {
-                    line = br.readLine()
-                    continue
-                }
-                val address = split[0]
-                val longitude = split[4].toDouble()
-                val latitude = split[3].toDouble()
-                val postalCode = split[5].toInt()
-                postalCodeThingy[postalCode] = Location(address, latitude, longitude, getURL(latitude, longitude))
-                line = br.readLine()
+        val file: File = File("data/database.csv")
+        val rows: List<List<String>> = csvReader().readAll(file)
+        for (line: List<String> in rows) {
+            val address = line[0]
+            if (address == "ADDRESS") {
+                continue
             }
+            val longitude = line[4].toDouble()
+            val latitude = line[3].toDouble()
+            val postalCode = line[5].toInt()
+            postalCodeThingy[postalCode] = Location(address, latitude, longitude, getURL(latitude, longitude))
         }
     } catch (exception: NumberFormatException) {
         exception.printStackTrace()
