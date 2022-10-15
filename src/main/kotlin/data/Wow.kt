@@ -17,6 +17,7 @@ fun sevenElevens(): ArrayList<Place> {
     val result = ArrayList<Place>()
     val pattern =
         Pattern.compile("showlocation\\(\"([\\w#.,'/@() \\-]+)\", \"([\\w#.,'/@() \\-]+)\", ([\\d.]+), ([\\d.]+)\\);")
+    val placeNames = ArrayList<String>()
 
     // load 7-11.txt
     try {
@@ -25,6 +26,13 @@ fun sevenElevens(): ArrayList<Place> {
             while (line != null) {
                 val matcher = pattern.matcher(line)
                 if (matcher.matches()) {
+                    val name = matcher.group(1)
+                    if (name in placeNames) {
+                        // don't repeat locations accidentally
+                        line = br.readLine()
+                        continue
+                    }
+                    placeNames.add(name)
                     val latitude = matcher.group(3).toDouble()
                     if (latitude == 0.0) {
                         // check to remove funny africa point
