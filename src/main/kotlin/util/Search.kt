@@ -28,7 +28,6 @@ private val tree: QuadTree<SuperStore, Item> = QuadTree(
     Point(SINGAPORE_RECTANGLE[2], SINGAPORE_RECTANGLE[1])
 )
 private val places = ArrayList<Place>()
-private var firstSearch = true
 
 private fun getData() {
     try {
@@ -44,6 +43,7 @@ fun initialize() {
 
     getData()
     initFakeData(places)
+    initPostalCodeThingy()
     for (place: Place in places) {
         val superstore = SuperStore()
         superstore.addItems(place.items)
@@ -58,10 +58,6 @@ fun itemToResult(item: Item): Result {
 
 // main search function
 fun search(value: String): ArrayList<Result> {
-    if (firstSearch) {
-        initialize()
-        firstSearch = false
-    }
     val queryItems = tree.rangeQuery(
         Point(SINGAPORE_RECTANGLE[0], SINGAPORE_RECTANGLE[3]),
         Point(SINGAPORE_RECTANGLE[2], SINGAPORE_RECTANGLE[1])

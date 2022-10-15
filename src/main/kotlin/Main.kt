@@ -33,7 +33,7 @@ fun App() {
         Result("Warm Ranch Doritos Chips", 5.51, "7 Eleven, Simei Street 1 + √3i"),
     )
 
-    //initialize()
+    initialize()
 
     MaterialTheme {
         Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(20.dp)) {

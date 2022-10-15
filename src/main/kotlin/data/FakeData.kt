@@ -75,12 +75,10 @@ fun insertFakeData(place: Place, dataList: MutableList<FakeDataItem>) {
 
     for (item in dataList) {
         if (item.chance > random.nextDouble()) {
-            var price = 0.00
-            if (item.uncertainty <= 0.0) {
-                price = item.price
+            val price = if (item.uncertainty <= 0.0) {
+                item.price
             } else {
-                random.nextDouble(item.price - item.uncertainty, item.price + item.uncertainty)
-                price = round(price / item.step) * item.step
+                round(random.nextDouble(item.price - item.uncertainty, item.price + item.uncertainty) / item.step) * item.step
             }
             place.items.add(Item(item.name, place.address, place.point, price))
         }
@@ -91,8 +89,16 @@ fun insertFakeData(place: Place, dataList: MutableList<FakeDataItem>) {
 fun initFakeData(places: ArrayList<Place>) {
 
     for (place: Place in places) {
-        if (place.type == PlaceType.SEVEN_ELEVEN) {
-            insertFakeData(place, FAKE_7_11)
+        when (place.type) {
+            PlaceType.SEVEN_ELEVEN -> {
+                insertFakeData(place, FAKE_7_11)
+            }
+            PlaceType.HAWKER_CENTRE -> {
+
+            }
+            PlaceType.SUPERMARKET -> {
+                insertFakeData(place, FAKE_SUPERMARKET)
+            }
         }
     }
 

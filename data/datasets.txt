@@ -1,2 +1,4 @@
+https://www.7-eleven.com.sg/Locate
 https://data.gov.sg/dataset/supermarkets
 https://data.gov.sg/dataset/hawker-centres
+https://github.com/xuancong84/singapore-address-heatmap
