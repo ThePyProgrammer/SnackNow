@@ -114,6 +114,7 @@ fun insertFakeData(place: Place, dataList: MutableList<FakeDataItem>) {
 fun initFakeData(places: ArrayList<Place>) {
 
     FAKE_SUPERMARKET.addAll(getPrices())
+    // TODO: do something about the (per kilogram) and (per plate)
 
     for (place: Place in places) {
         when (place.type) {
