@@ -26,6 +26,16 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
 }
 
+tasks.jar {
+    manifest.attributes["Main-Class"] = "MainKt"
+    val dependencies = configurations
+        .runtimeClasspath
+        .get()
+        .map(::zipTree) // OR .map { zipTree(it) }
+    from(dependencies)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 compose.desktop {
     application {
         mainClass = "MainKt"
@@ -34,5 +44,7 @@ compose.desktop {
             packageName = "SnackNow"
             packageVersion = "1.0.0"
         }
+        mainJar.set(project.file("SnackNow.jar"))
+        dependsOn("mainJarTask")
     }
 }

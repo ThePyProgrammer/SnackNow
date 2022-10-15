@@ -18,7 +18,7 @@ private val SINGAPORE_RECTANGLE = listOf(
     104.167488, // right
     1.498674, // top
 )
-private const val SEARCH_THRESHOLD = 80 // percent
+private const val SEARCH_THRESHOLD = 70 // percent
 private val tree: QuadTree<SuperStore, Item> = QuadTree(
     Point(SINGAPORE_RECTANGLE[0], SINGAPORE_RECTANGLE[3]),
     Point(SINGAPORE_RECTANGLE[2], SINGAPORE_RECTANGLE[1])
