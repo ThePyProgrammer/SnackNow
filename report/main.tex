@@ -116,6 +116,8 @@ The app is a desktop app that can be run as an EXE or a JAR. The idea is to add 
     \item The price of the item
 \end{itemize}
 
+In order to indicate your location, you have to put in your postal code (due to the current permission-related limitations of Jetpack Compose). The app then queries a database to identify your latitude and longitude for querying.
+
 \section{Analysis and Explanation of Implemented Tree Methods}
 
 \textit{Provide a brief explanation, in your own words, and rigorous mathematical worst-case analysis derivation and time complexity of the key methods of your tree structure (retrieval, insertion, deletion, balance (if any))}
@@ -221,6 +223,9 @@ This test cases tests queries that are very thin and do not enclose any points, 
 
 The program should throw an error when trying to insert points outside the bounding box.
 
+\begin{verbatim}
+    Exception in thread "main" java.lang.IndexOutOfBoundsException: Point outside of bounding box of QuadTree!
+\end{verbatim}
 
 \subsection{\texttt{single.csv}}
 \begin{figure}
@@ -232,9 +237,9 @@ The program should throw an error when trying to insert points outside the bound
 
 We verify that the QuadTree works even when it does not need to subdivide.
 
-
-
-
+\begin{verbatim}
+    
+\end{verbatim}
 
 
 
