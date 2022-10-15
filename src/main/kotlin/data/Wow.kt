@@ -27,8 +27,7 @@ fun sevenElevens(): ArrayList<Location> {
                         continue
                     }
                     val longitude = matcher.group(4).toDouble()
-                    val location =
-                        Location(matcher.group(1), latitude, longitude, getURL(latitude, longitude))
+                    val location = Location(matcher.group(1), latitude, longitude, getURL(latitude, longitude))
                     result.add(location)
                 } // else?
                 line = br.readLine()
