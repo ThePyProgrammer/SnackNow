@@ -70,6 +70,11 @@ fun main() {
     println("========= SAMPLE TEST CASE =========")
     println("========= TEST SIMPLE CASE =========")
     test(readCSV("${rootpath}/simple.csv"))
+//    println("========= TEST EDGES CASE =========")
+//    test(readCSV("${rootpath}/edges.csv"))
+    println("========= TEST SINGLE CASE =========")
+    test(readCSV("${rootpath}/SINGLE.csv"))
     println("========= TEST LARGE CASE =========")
     test(readCSV("${rootpath}/grid.csv"))
+
 }
