@@ -7,11 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -20,6 +16,8 @@ import model.base.Result
 import ui.components.ResultPane
 import ui.lib.Combobox
 import ui.lib.NumberPicker
+import util.initialize
+import util.search
 
 @Composable
 @Preview
@@ -27,13 +25,15 @@ fun App() {
     var text by remember { mutableStateOf("") }
     val priority = mutableStateOf("High")
     val queries = mutableStateOf(10)
-    val results = mutableListOf(
+    val results = mutableStateListOf(
         Result("Air, 1 atm", 0.00, "Wherever you are right now"),
         Result("Cool Ranch Doritos Chip (1 chip only)", 5.50, "7 Eleven, Simei Street 1"),
         Result("Cool Ranch Doritos Chips", 5.49, "7 Eleven, Simei Street -300000000"),
         Result("Doritos - Cool Ranch Flavour", 3.50, "FairPrice, EastPoint Mall, 3 Simei Street 6, Singapore 528833"),
         Result("Warm Ranch Doritos Chips", 5.51, "7 Eleven, Simei Street 1 + √3i"),
     )
+
+    //initialize()
 
     MaterialTheme {
         Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(20.dp)) {
@@ -72,7 +72,8 @@ fun App() {
                                 // TODO
                                 // just a test
                                 // adds to the bottom of the results list (preferably the results list should clear beforehand)
-                                results.add(Result(text, 0.00, text))
+                                results.clear()
+                                results.addAll(search(text))
                             }
                         ) { Text("SEARCH") }
                     }

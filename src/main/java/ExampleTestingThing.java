@@ -14,8 +14,8 @@ public class ExampleTestingThing {
 
         // Note that while superstores have a position, they are implicitly min-size quads
 
-        for(double i = 0; i < 0.01; i = i + 0.001) {
-            for(double j = 0; j < 0.01; j = j + 0.001) {
+        for (double i = 0; i < 0.01; i = i + 0.001) {
+            for (double j = 0; j < 0.01; j = j + 0.001) {
                 Point p = new Point(i, j);
                 SuperStore store = new SuperStore();
                 store.addItem(new Item("dummy"+i+j, "test", p, 1));
@@ -29,11 +29,12 @@ public class ExampleTestingThing {
         printPositions(tree.rangeQuery(new Point(0.00050, 0.0085), new Point(0.0015, 0.00095)));
         // This is still subtly broken, I think
         System.out.println(tree.debugging_counter);
+
     }
 
     public static void printPositions(ArrayList<Item> arr) {
         System.out.println("Number of elements: " + arr.size());
-        for(Item i : arr) {
+        for (Item i : arr) {
             System.out.println(i.getX() + " : " + i.getY());
         }
     }
