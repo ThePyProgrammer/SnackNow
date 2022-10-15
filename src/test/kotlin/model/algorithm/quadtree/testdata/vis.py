@@ -64,4 +64,4 @@ if __name__ == '__main__':
     elif sys.argv[1] == 'generate':
         pass
         # bounds, points, queries = generate_grid()
-        # write_points_data("grid.csv",bounds,points,queries)
+        # write_points_data("edges.csv",bounds,points,queries)

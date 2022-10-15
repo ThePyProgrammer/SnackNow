@@ -37,7 +37,7 @@ fun test(test: Testcase) {
 
     var count = 1;
     test.queries.forEach { query ->
-        val result = tree.rangeQuery(query[0], query[1]).map { Point(it.x,it.y) }
+        val result = tree.rangeQuery(query[0], query[1]).map { Point(it.x,it.y) }.sortedWith(compareBy({it.x},{it.y}))
         println("${count++}) Queried ${query[0].toString()} to ${query[1].toString()} and received ${result.size} result(s):")
         println(result)
     }
@@ -68,10 +68,8 @@ fun test(test: Testcase) {
 fun main() {
     val rootpath = "src/test/kotlin/model/algorithm/quadtree/testdata"
     println("========= SAMPLE TEST CASE =========")
-    println("========= TEST GENERIC CASE =========")
+    println("========= TEST SIMPLE CASE =========")
     test(readCSV("${rootpath}/simple.csv"))
     println("========= TEST LARGE CASE =========")
     test(readCSV("${rootpath}/grid.csv"))
-
-
 }
