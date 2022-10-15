@@ -148,15 +148,15 @@ The process for doing window queries is rather intuitive. We start at the root, 
 
 \paragraph{Insertion:} 
 
-The worst-case time complexity of the insertion operation for Quad-Trees is O(n).
+The worst-case time complexity of the insertion operation for Quad-Trees is O(n), where n is the size of the element to be inserted.
 
-First, let us observe that no matter the structure of the tree, at most a finite number of recursive calls will be made to propagate down it. Due to the minimum size of the lowermost QuadNode, once we reach a depth of around 10 (because Singapore is roughly 50km across), we will hit the minimum size. However, since this is a finite distance, this only contributes a constant term to the asymptotic time complexity of the algorithm. Indeed, 10 is low enough that we can call it constant without feeling bad about it. More relevant here is the merge operation.
+First, let us observe that no matter the structure of the tree, at most a finite number of recursive calls will be made to propagate down it. Due to the minimum size of the lowermost QuadNode, once we reach a recursion depth of around 10 (because Singapore is roughly 50km across), we will hit the minimum size. However, since this is a finite distance, this only contributes a constant term to the asymptotic time complexity of the algorithm. Indeed, 10 is low enough that we can call it constant without feeling bad about it. More relevant here is the merge operation.
 
-Because we merge the the two catalogues together, we invariably invoke java's System.arrayCopy method. In researching the time complexity of this method, I have come to the conclusion that the only explanation here is "It's complicated". Given this, we will make the safe assumption that it is still O(n), where n is the number of elements to be moved from one array to another. \newline
+Because we merge the the two catalogues together, we invariably invoke java's System.arrayCopy method. In researching the time complexity of this method, I have come to the conclusion that the only explanation here is "It's complicated". Given this, we will make the safe assumption that it has an asymptotic time complexity O(n), where n is the number of elements to be moved from one array to another. \newline
 The time taken to run System.arrayCopy is then roughly of the form:
-$$T(n) = an + 10b + c$$
-Where a is the constant factor hidden behind O(n), b is the time taken to run one recursive call, and c is whatever other overhead we have. If we accept this, then the asymptotic worst-case time complexity of insertion is:
-$$O(n)$$
+$$T_i(n) = an + 10b + c$$
+Where a is the constant factor hidden behind O(n), b is the time taken to run one recursive call, and c is whatever other overhead we have. Since this only needs to be run once per insertion, and does not matter on the current state of the tree, merely the element being inserted, then the asymptotic worst-case time complexity of insertion is:
+$$O(T_(n)) = O(an + 10b + c) = O(n)$$
 
 
 \paragraph{Range Query:} 
@@ -177,7 +177,7 @@ a_d & = 4a_{d-1}\\
 
 As for the time complexity of outputting all the items, although the number of elements contained in each node varies, since there are at most $n$ items, the time complexity is only $O(n)$.
 
-Thus, the asymptotic worst-case time complexity is $O(n + 4n + 4^{10})$.
+Thus, the asymptotic worst-case time complexity is $O(n + 4n + 4^{10})$, equivalent to $O(n)$
 
 \paragraph{Why use Quad-Trees}
 
@@ -264,6 +264,10 @@ By helping out a here and there in each component of the project, and reviewing 
 
 \subsection{Vikram}
 
+As the one who was responsible for the actual implementation of the Quad-Tree, I have learned a lot about the virtues and horrors of abstraction. The upside: It makes the code a lot neater to write, a lot easier to read, and is generally just elegant. The downside: It makes debugging code paradoxically more difficult, because when things are more elegant, and they don't work, trying to figure out what part of the elegance is breaking is very difficult. One particularly memorable aspect of debugging process (for me), was when I spent two days, on and off, trying to track down a bug present in my Queries. In the end, it turned out to not be in my queries, but in my insertions; my code was correct, I could swear it, and I was right. It was someone else's code which had broken, and abstraction had hidden it from my attention.
+
+Still, I learned a lot in the overall process. Not so much about the technical aspects of the programming, but in the process of researching which trees to use, I did hit upon somewhat of a realisation regarding data structure development. The distinction between implicit properties of data and explicit choices in organisation is not one that I had thought about much before this assignment, but now I understand more.
+
 \section{Work Distribution Matrix}
 
 \begin{center}
@@ -280,12 +284,15 @@ By helping out a here and there in each component of the project, and reviewing 
     \hline
 \end{tabular}
 \end{center}
+\small{*The R-Tree was cut in the end, but still worked on by Prannaya}
 
 
 \newpage
 
 
 \section{References}
+
+R. K. V. Kothuri, S. Ravada, D. Abugov, "Quadtree and R-tree Indexes in Oracle Spatial: A Comparison using GIS Data"
 
 \printbibliography[
 heading=none
