@@ -6,32 +6,32 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollbarAdapter
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.painter.BitmapPainter
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.res.loadImageBitmap
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
+import data.getLocationFromPostalCode
+import model.base.Location
 import model.base.Result
 import ui.components.ResultPane
 import ui.lib.Combobox
 import ui.lib.NumberPicker
 import util.initialize
 import util.search
-import java.io.File
+
+var userLocation: Location? = null
 
 @Composable
 @Preview
 fun App() {
     var text by remember { mutableStateOf("") }
+    var postalCode by remember { mutableStateOf("") }
+    var address by remember { mutableStateOf("Enter a postal code!") }
     val priority = mutableStateOf("High")
     val queries = mutableStateOf(10)
     val results = mutableStateListOf(
@@ -49,6 +49,22 @@ fun App() {
 
             Box(Modifier.width(450.dp).fillMaxHeight()) {
                 Column(Modifier.width(450.dp)) {
+                    Row(Modifier.padding(10.dp).align(Alignment.Start).fillMaxWidth(), Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text("My postal code: ")
+                        OutlinedTextField(
+                            value = postalCode,
+                            onValueChange = {
+                                postalCode = it
+                                userLocation = getLocationFromPostalCode(postalCode)
+                                address = if (userLocation == null) "Enter a valid postal code!" else userLocation!!.name
+                            },
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                            label = { Text("Postal Code") }
+                        )
+                    }
+                    Row(Modifier.padding(10.dp).align(Alignment.Start).fillMaxWidth(), Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text(address)
+                    }
                     Row(Modifier.padding(10.dp).align(Alignment.Start).fillMaxWidth(), Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
                         Text("I want to buy: ")
                         OutlinedTextField(
@@ -78,9 +94,6 @@ fun App() {
                     Row(Modifier.padding(10.dp).align(Alignment.End)) {
                         Button(
                             onClick = {
-                                // TODO
-                                // just a test
-                                // adds to the bottom of the results list (preferably the results list should clear beforehand)
                                 results.clear()
                                 results.addAll(search(text))
                             }
@@ -117,13 +130,6 @@ fun main() = application {
         height = 600.dp
     )
     val windowTitle by remember { mutableStateOf("SnackNow") }
-
-//    val file = File("snack_now_icon.png")
-//    val imageBitmap: ImageBitmap = remember(file) {
-//        loadImageBitmap(file.inputStream())
-//    }
-
-    val windowIcon = remember { mutableStateOf(Icons.Filled.ShoppingCart) }
     Window(
         title = windowTitle,
         resizable = true,

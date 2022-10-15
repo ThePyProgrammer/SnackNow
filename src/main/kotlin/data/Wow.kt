@@ -70,8 +70,12 @@ fun initPostalCodeThingy() {
     }
 }
 
-fun getLocationFromPostalCode(postalCode: Int): Location? {
-    return postalCodeThingy[postalCode];
+fun getLocationFromPostalCode(postalCode: String): Location? {
+    try {
+        return postalCodeThingy[postalCode.toInt()]
+    } catch (e: Exception) {
+        return null
+    }
 }
 
 // nothing's hidden here
